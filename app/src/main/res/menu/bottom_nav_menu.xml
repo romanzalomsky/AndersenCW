@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/characters"
+        android:title="@string/characters_text"
+        android:icon="@drawable/person_icon" />
+    <item android:id="@+id/locations"
+        android:title="@string/locations_text"
+        android:icon="@drawable/location_icon" />
+    <item android:id="@+id/episodes"
+        android:title="@string/episodes_text"
+        android:icon="@drawable/episode_icon" />
+</menu>
