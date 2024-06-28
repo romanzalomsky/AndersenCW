@@ -15,7 +15,7 @@ import com.zalomsky.rickandmorty.domain.model.Character
 
 class CharactersAdapter(private var characters: List<Character>) : RecyclerView.Adapter<CharactersAdapter.CharactersViewHolder>() {
 
-    private var filteredCharacters = listOf<Character>()
+    private var filteredCharacters: List<Character> = characters
 
     class CharactersViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -40,17 +40,16 @@ class CharactersAdapter(private var characters: List<Character>) : RecyclerView.
 
     fun setCharacters(characters: List<Character>) {
         this.characters = characters
-        this.filteredCharacters = characters
         notifyDataSetChanged()
     }
 
     fun sortCharacters() {
-        filteredCharacters = filteredCharacters.sortedBy { it.name }
+        characters = characters.sortedBy { it.name }
         notifyDataSetChanged()
     }
 
     fun sortCharactersByStatus(status: String) {
-        filteredCharacters = if (status == "all") {
+        characters = if (status == "all") {
             characters
         } else {
             characters.filter { it.status.equals(status, ignoreCase = true) }

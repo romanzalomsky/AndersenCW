@@ -1,5 +1,6 @@
 package com.zalomsky.rickandmorty.features.characters
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -64,7 +65,10 @@ class CharactersFragment : Fragment() {
             adapter.setCharacters(characterList)
             swipeRefreshLayout.isRefreshing = false
             binding.loadingProgressBar.visibility = View.GONE
+            binding.amountOfResult.visibility = View.GONE
+            binding.sortIcon.isEnabled = true
         }
+
         getAllCharacters()
         clickers()
     }
@@ -115,6 +119,8 @@ class CharactersFragment : Fragment() {
         }
     }
 
+
+    @SuppressLint("SetTextI18n")
     private fun statusAlertDialog() {
         val builder = AlertDialog.Builder(requireContext())
         builder.setTitle(R.string.status_alert)
@@ -136,6 +142,9 @@ class CharactersFragment : Fragment() {
             }
 
             adapter.sortCharactersByStatus(status)
+            binding.amountOfResult.text = "${resources.getText(R.string.results)} ${adapter.itemCount}"
+            binding.amountOfResult.visibility = View.VISIBLE
+            binding.sortIcon.isEnabled = false
         }
         builder.setNegativeButton(R.string.cancel) { dialog, _ ->
             dialog.dismiss()
