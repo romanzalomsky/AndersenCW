@@ -9,75 +9,69 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.RadioButton
 import android.widget.RadioGroup
+import android.widget.SearchView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.zalomsky.rickandmorty.R
-import com.zalomsky.rickandmorty.api.RickAndMortyApi
+import com.zalomsky.rickandmorty.api.CharacterApi
 import com.zalomsky.rickandmorty.databinding.FragmentCharactersBinding
 import com.zalomsky.rickandmorty.domain.model.Character
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
+@AndroidEntryPoint
 class CharactersFragment : Fragment() {
 
     private lateinit var binding: FragmentCharactersBinding
-    private lateinit var adapter: CharactersAdapter
+
+    private val adapter by lazy { CharactersAdapter(emptyList()) }
+
+    private var _swipeRefreshLayout: SwipeRefreshLayout? = null
+    private val swipeRefreshLayout get() = _swipeRefreshLayout!!
+
+    private val charactersViewModel: CharactersViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-
         binding = FragmentCharactersBinding.inflate(layoutInflater)
 
-        adapter = CharactersAdapter(emptyList())
-        binding.charactersList.layoutManager = LinearLayoutManager(context)
+        (activity as AppCompatActivity).supportActionBar?.title = resources.getText(R.string.characters_text)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+
         binding.charactersList.adapter = adapter
+        binding.loadingProgressBar.visibility = View.VISIBLE
 
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://rickandmortyapi.com/api/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        val rickAndMortyApi = retrofit.create(RickAndMortyApi::class.java)
-
-        CoroutineScope(Dispatchers.Main).launch {
-            val characterResponse = rickAndMortyApi.getCharactersList()
-            val characterList = characterResponse.results
-            adapter.setCharacters(characterList)
-        }
-
-        clickers()
         return binding.root
     }
 
-    private fun statusAlertDialog(
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-    ) {
-        CoroutineScope(Dispatchers.Main).launch {
-            val builder = AlertDialog.Builder(requireContext())
-            builder.setTitle(R.string.status_alert)
+        _swipeRefreshLayout = binding.swipeRefreshLayout
+        swipeRefreshLayout.setOnRefreshListener { getAllCharacters() }
 
-            val dialogView = layoutInflater.inflate(R.layout.dialog_sort_status, null)
-            builder.setView(dialogView)
-
-            builder.setPositiveButton(R.string.submit) { dialog, which ->
-                val radioButtonGroup = dialogView.findViewById<RadioGroup>(R.id.radioButtonGroup)
-                val selectedRadioButtonId = radioButtonGroup.checkedRadioButtonId
-                val selectedRadioButton =
-                    dialogView.findViewById<RadioButton>(selectedRadioButtonId)
-                val selectedOption = selectedRadioButton.text.toString()
-            }
-            builder.setNegativeButton(R.string.cancel) { dialog, which -> }
-            val dialog = builder.create()
-            dialog.show()
+        charactersViewModel.characters.observe(viewLifecycleOwner) { characterResponse ->
+            val characterList = characterResponse?.results ?: emptyList()
+            adapter.setCharacters(characterList)
+            swipeRefreshLayout.isRefreshing = false
+            binding.loadingProgressBar.visibility = View.GONE
         }
+        getAllCharacters()
+        clickers()
     }
 
-    private fun clickers(
-    ) {
+    private fun getAllCharacters() = charactersViewModel.getAllCharacters()
+
+    private fun clickers() {
         CoroutineScope(Dispatchers.Main).launch {
             binding.sortIcon.setOnClickListener {
                 val popupMenu = PopupMenu(requireContext(), binding.sortIcon)
@@ -119,5 +113,39 @@ class CharactersFragment : Fragment() {
                 adapter.sortCharacters()
             }
         }
+    }
+
+    private fun statusAlertDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle(R.string.status_alert)
+
+        val dialogView = layoutInflater.inflate(R.layout.dialog_sort_status, null)
+        builder.setView(dialogView)
+
+        builder.setPositiveButton(R.string.submit) { dialog, which ->
+            val radioButtonGroup = dialogView.findViewById<RadioGroup>(R.id.radioButtonGroup)
+            val selectedRadioButtonId = radioButtonGroup.checkedRadioButtonId
+            val selectedRadioButton = dialogView.findViewById<RadioButton>(selectedRadioButtonId)
+            val selectedOption = selectedRadioButton.text.toString()
+
+            val status = when (selectedOption) {
+                getString(R.string.status_alive) -> "Alive"
+                getString(R.string.status_dead) -> "Dead"
+                getString(R.string.status_unknown) -> "Unknown"
+                else -> "all"
+            }
+
+            adapter.sortCharactersByStatus(status)
+        }
+        builder.setNegativeButton(R.string.cancel) { dialog, _ ->
+            dialog.dismiss()
+        }
+        val dialog = builder.create()
+        dialog.show()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _swipeRefreshLayout = null
     }
 }

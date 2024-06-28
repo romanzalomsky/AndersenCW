@@ -5,7 +5,7 @@ import com.zalomsky.rickandmorty.domain.model.CharacterResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 
-interface RickAndMortyApi {
+interface CharacterApi {
 
     @GET("character")
     suspend fun getCharactersList(): CharacterResponse

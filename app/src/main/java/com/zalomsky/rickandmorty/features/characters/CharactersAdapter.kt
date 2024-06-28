@@ -9,11 +9,13 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
+import com.bumptech.glide.Glide
 import com.zalomsky.rickandmorty.R
 import com.zalomsky.rickandmorty.domain.model.Character
 
-class CharactersAdapter(private var characters: List<Character>): RecyclerView.Adapter<CharactersAdapter.CharactersViewHolder>() {
+class CharactersAdapter(private var characters: List<Character>) : RecyclerView.Adapter<CharactersAdapter.CharactersViewHolder>() {
+
+    private var filteredCharacters = listOf<Character>()
 
     class CharactersViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
@@ -30,7 +32,7 @@ class CharactersAdapter(private var characters: List<Character>): RecyclerView.A
             statusText.text = character.status
             speciesText.text = character.species
             genderText.text = character.gender
-            Picasso.get()
+            Glide.with(itemView.context)
                 .load(character.image)
                 .into(image)
         }
@@ -38,23 +40,30 @@ class CharactersAdapter(private var characters: List<Character>): RecyclerView.A
 
     fun setCharacters(characters: List<Character>) {
         this.characters = characters
+        this.filteredCharacters = characters
         notifyDataSetChanged()
     }
 
     fun sortCharacters() {
-        characters = characters.sortedBy { it.name }
+        filteredCharacters = filteredCharacters.sortedBy { it.name }
+        notifyDataSetChanged()
+    }
+
+    fun sortCharactersByStatus(status: String) {
+        filteredCharacters = if (status == "all") {
+            characters
+        } else {
+            characters.filter { it.status.equals(status, ignoreCase = true) }
+        }
         notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CharactersViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val view = inflater.inflate(R.layout.item_character, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_character, parent, false)
         return CharactersViewHolder(view)
     }
 
-    override fun getItemCount(): Int {
-        return characters.size
-    }
+    override fun getItemCount(): Int = characters.size
 
     override fun onBindViewHolder(holder: CharactersViewHolder, position: Int) {
         holder.bind(characters[position])

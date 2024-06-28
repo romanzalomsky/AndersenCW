@@ -1,6 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("org.jetbrains.kotlin.kapt")
+    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -50,8 +52,15 @@ dependencies {
     implementation(libs.converter.gson)
     implementation(libs.kotlinx.serialization.json)
 
-    //Picasso
-    implementation(libs.picasso)
+    //Glide
+    implementation(libs.glide)
+
+    //Pull-to-Refresh
+    implementation(libs.androidx.swiperefreshlayout)
+
+    //Hilt
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -61,4 +70,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+}
+kapt {
+    correctErrorTypes = true
 }
