@@ -13,10 +13,12 @@ import android.widget.RadioGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.zalomsky.rickandmorty.R
 import com.zalomsky.rickandmorty.databinding.FragmentCharactersBinding
 import com.zalomsky.rickandmorty.features.characters.list.CharactersAdapter
+import com.zalomsky.rickandmorty.features.characters.list.ItemMoveCallback
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -43,6 +45,10 @@ class CharactersFragment : Fragment(), CharactersAdapter.Listener {
 
         (activity as AppCompatActivity).supportActionBar?.title = resources.getText(R.string.characters_text)
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+
+        val callback = ItemMoveCallback(adapter)
+        val itemTouchHelper = ItemTouchHelper(callback)
+        itemTouchHelper.attachToRecyclerView(binding.charactersList)
 
         binding.charactersList.adapter = adapter
         binding.loadingProgressBar.visibility = View.VISIBLE

@@ -9,11 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.zalomsky.rickandmorty.R
 import com.zalomsky.rickandmorty.domain.model.Character
+import java.util.Collections
 
 class CharactersAdapter(
     private var characters: List<Character>,
     private val listener: Listener
-) : RecyclerView.Adapter<CharactersAdapter.CharactersViewHolder>() {
+) : RecyclerView.Adapter<CharactersAdapter.CharactersViewHolder>(),
+    ItemMoveCallback.ItemTouchHelperAdapter {
 
     interface Listener {
         fun onClick(characterId: Int)
@@ -69,5 +71,19 @@ class CharactersAdapter(
 
     override fun onBindViewHolder(holder: CharactersViewHolder, position: Int) {
         holder.bind(characters[position], listener)
+    }
+
+    override fun onItemMove(fromPosition: Int, toPosition: Int): Boolean {
+        if (fromPosition < toPosition) {
+            for (i in fromPosition until toPosition) {
+                Collections.swap(characters, i, i + 1)
+            }
+        } else {
+            for (i in fromPosition downTo toPosition + 1) {
+                Collections.swap(characters, i, i - 1)
+            }
+        }
+        notifyItemMoved(fromPosition, toPosition)
+        return true
     }
 }
