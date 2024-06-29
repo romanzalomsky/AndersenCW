@@ -4,6 +4,7 @@
     <string name="characters_text">Characters</string>
     <string name="locations_text">Locations</string>
     <string name="episodes_text">Episodes</string>
+    <string name="details_character_text">Character Details</string>
     <string name="search">Search</string>
 
     <string name="name_sort">Name</string>
@@ -20,4 +21,6 @@
     <string name="results">Results: </string>
     <string name="submit">Submit</string>
     <string name="cancel">Cancel</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

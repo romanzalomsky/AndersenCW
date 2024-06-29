@@ -10,33 +10,29 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.RadioButton
 import android.widget.RadioGroup
-import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.navigation.fragment.findNavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.zalomsky.rickandmorty.R
-import com.zalomsky.rickandmorty.api.CharacterApi
 import com.zalomsky.rickandmorty.databinding.FragmentCharactersBinding
-import com.zalomsky.rickandmorty.domain.model.Character
+import com.zalomsky.rickandmorty.features.characters.list.CharactersAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 @AndroidEntryPoint
-class CharactersFragment : Fragment() {
+class CharactersFragment : Fragment(), CharactersAdapter.Listener {
 
     private lateinit var binding: FragmentCharactersBinding
 
-    private val adapter by lazy { CharactersAdapter(emptyList()) }
+    private val adapter = CharactersAdapter(emptyList(), this)
 
     private var _swipeRefreshLayout: SwipeRefreshLayout? = null
     private val swipeRefreshLayout get() = _swipeRefreshLayout!!
 
-    private val charactersViewModel: CharactersViewModel by viewModels()
+    private val charactersViewModel: CharactersViewModel by viewModels ()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -119,7 +115,6 @@ class CharactersFragment : Fragment() {
         }
     }
 
-
     @SuppressLint("SetTextI18n")
     private fun statusAlertDialog() {
         val builder = AlertDialog.Builder(requireContext())
@@ -135,9 +130,9 @@ class CharactersFragment : Fragment() {
             val selectedOption = selectedRadioButton.text.toString()
 
             val status = when (selectedOption) {
-                getString(R.string.status_alive) -> "Alive"
-                getString(R.string.status_dead) -> "Dead"
-                getString(R.string.status_unknown) -> "Unknown"
+                getString(R.string.status_alive) -> getString(R.string.status_alive)
+                getString(R.string.status_dead) -> getString(R.string.status_dead)
+                getString(R.string.status_unknown) -> getString(R.string.status_unknown)
                 else -> "all"
             }
 
@@ -156,5 +151,10 @@ class CharactersFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _swipeRefreshLayout = null
+    }
+
+    override fun onClick(characterId: Int) {
+        val action = CharactersFragmentDirections.actionCharactersToDetailsCharacterFragment(characterId)
+        findNavController().navigate(action)
     }
 }

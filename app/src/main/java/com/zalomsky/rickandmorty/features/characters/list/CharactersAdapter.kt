@@ -1,33 +1,33 @@
-package com.zalomsky.rickandmorty.features.characters
+package com.zalomsky.rickandmorty.features.characters.list
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.zalomsky.rickandmorty.R
 import com.zalomsky.rickandmorty.domain.model.Character
 
-class CharactersAdapter(private var characters: List<Character>) : RecyclerView.Adapter<CharactersAdapter.CharactersViewHolder>() {
+class CharactersAdapter(
+    private var characters: List<Character>,
+    private val listener: Listener
+) : RecyclerView.Adapter<CharactersAdapter.CharactersViewHolder>() {
 
-    private var filteredCharacters: List<Character> = characters
+    interface Listener {
+        fun onClick(characterId: Int)
+    }
 
     class CharactersViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private val idText: TextView = itemView.findViewById(R.id.idTextView)
         private val nameText: TextView = itemView.findViewById(R.id.nameTextView)
         private val statusText: TextView = itemView.findViewById(R.id.statusTextView)
         private val speciesText: TextView = itemView.findViewById(R.id.speciesTextView)
         private val genderText: TextView = itemView.findViewById(R.id.genderTextView)
         private val image: ImageView = itemView.findViewById(R.id.charactersImage)
 
-        fun bind(character: Character) {
-            idText.text = character.id.toString()
+        fun bind(character: Character, listener: Listener) {
             nameText.text = character.name
             statusText.text = character.status
             speciesText.text = character.species
@@ -35,6 +35,9 @@ class CharactersAdapter(private var characters: List<Character>) : RecyclerView.
             Glide.with(itemView.context)
                 .load(character.image)
                 .into(image)
+            image.setOnClickListener {
+                listener.onClick(character.id)
+            }
         }
     }
 
@@ -65,6 +68,6 @@ class CharactersAdapter(private var characters: List<Character>) : RecyclerView.
     override fun getItemCount(): Int = characters.size
 
     override fun onBindViewHolder(holder: CharactersViewHolder, position: Int) {
-        holder.bind(characters[position])
+        holder.bind(characters[position], listener)
     }
 }
