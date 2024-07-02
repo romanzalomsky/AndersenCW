@@ -2,13 +2,9 @@ package com.zalomsky.rickandmorty
 
 import android.os.Bundle
 import android.view.MenuItem
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.zalomsky.rickandmorty.databinding.ActivityMainBinding
 import com.zalomsky.rickandmorty.features.characters.CharactersFragment
 import dagger.hilt.android.AndroidEntryPoint
