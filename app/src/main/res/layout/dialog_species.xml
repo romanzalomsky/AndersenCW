@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <RadioGroup
+        android:id="@+id/radioButtonGroupSpecies"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RadioButton
+            android:id="@+id/radioButtonHuman"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/human" />
+
+        <RadioButton
+            android:id="@+id/radioButtonAlien"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/alien" />
+
+        <RadioButton
+            android:id="@+id/radioButtonHumanoid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/humanoid" />
+
+        <RadioButton
+            android:id="@+id/radioButtonUnknown"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/unknown" />
+
+        <RadioButton
+            android:id="@+id/radioButtonPoopybutthole"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/poopybutthole" />
+
+        <RadioButton
+            android:id="@+id/radioButtonMythological_creature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/mythological_creature" />
+
+        <RadioButton
+            android:id="@+id/radioButtonAnimal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/animal" />
+
+        <RadioButton
+            android:id="@+id/radioButtonRobot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/robot" />
+
+        <RadioButton
+            android:id="@+id/radioButtonCronenberg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cronenberg" />
+
+        <RadioButton
+            android:id="@+id/radioButtonDisease"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/disease" />
+    </RadioGroup>
+</LinearLayout>

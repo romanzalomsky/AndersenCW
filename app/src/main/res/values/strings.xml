@@ -1,3 +1,44 @@
 <resources>
     <string name="app_name">RickAndMorty</string>
+
+    <string name="characters_text">Characters</string>
+    <string name="locations_text">Locations</string>
+    <string name="episodes_text">Episodes</string>
+    <string name="details_character_text">Character Details</string>
+    <string name="search">Search</string>
+
+    <string name="name_sort">Name</string>
+    <string name="status_sort">Status</string>
+    <string name="species_sort">Species</string>
+    <string name="type_sort">Type</string>
+    <string name="gender_sort">Gender</string>
+    <string name="all_sort">All</string>
+
+    <string name="status_alert">Sort by status</string>
+    <string name="status_alive">Alive</string>
+    <string name="status_dead">Dead</string>
+    <string name="status_unknown">Unknown</string>
+    <string name="results">Results: </string>
+    <string name="submit">Submit</string>
+    <string name="cancel">Cancel</string>
+
+    <string name="human">Human</string>
+    <string name="alien">Alien</string>
+    <string name="humanoid">Humanoid</string>
+    <string name="unknown">unknown</string>
+    <string name="poopybutthole">Poopybutthole</string>
+    <string name="mythological_creature">Mythological Creature</string>
+    <string name="animal">Animal</string>
+    <string name="robot">Robot</string>
+    <string name="cronenberg">Cronenberg</string>
+    <string name="disease">Disease</string>
+
+    <string name="female">Female</string>
+    <string name="male">Male</string>
+    <string name="genderless">Genderless</string>
+
+
+    <string name="not_supported">Not supported</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
