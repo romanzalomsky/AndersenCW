@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import com.zalomsky.rickandmorty.R
 
 class EpisodesFragment : Fragment() {
@@ -17,7 +18,10 @@ class EpisodesFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+
+        (activity as AppCompatActivity).supportActionBar?.title = resources.getText(R.string.episodes_text)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
         return inflater.inflate(R.layout.fragment_episodes, container, false)
     }
 
