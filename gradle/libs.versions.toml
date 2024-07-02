@@ -13,6 +13,7 @@ material = "1.10.0"
 activity = "1.9.0"
 constraintlayout = "2.1.4"
 navigationFragmentKtx = "2.7.7"
+pagingRuntime = "3.3.0"
 retrofit = "2.9.0"
 swiperefreshlayout = "1.1.0"
 
@@ -21,6 +22,7 @@ androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = 
 androidx-navigation-dynamic-features-fragment = { module = "androidx.navigation:navigation-dynamic-features-fragment", version.ref = "navigationFragmentKtx" }
 androidx-navigation-fragment-ktx = { module = "androidx.navigation:navigation-fragment-ktx", version.ref = "navigationFragmentKtx" }
 androidx-navigation-ui-ktx = { module = "androidx.navigation:navigation-ui-ktx", version.ref = "navigationFragmentKtx" }
+androidx-paging-runtime = { module = "androidx.paging:paging-runtime", version.ref = "pagingRuntime" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }

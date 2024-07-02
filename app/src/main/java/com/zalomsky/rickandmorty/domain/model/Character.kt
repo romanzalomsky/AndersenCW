@@ -28,3 +28,10 @@ data class Location(
 data class CharacterResponse(
     val results: List<Character>
 )
+
+data class QueryParams(
+    val name: String = "",
+    val status: String = "",
+    val species: String = "",
+    val gender: String = ""
+)

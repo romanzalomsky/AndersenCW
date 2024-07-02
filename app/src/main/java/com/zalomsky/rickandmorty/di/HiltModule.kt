@@ -1,6 +1,6 @@
 package com.zalomsky.rickandmorty.di
 
-import com.zalomsky.rickandmorty.api.CharacterApi
+import com.zalomsky.rickandmorty.network.api.CharacterApi
 import com.zalomsky.rickandmorty.domain.repository.CharacterRepository
 import dagger.Module
 import dagger.Provides
