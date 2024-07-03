@@ -39,6 +39,7 @@ class CharactersFragment : Fragment(), CharactersAdapter.Listener {
                 setDisplayHomeAsUpEnabled(false)
             }
             swipeRefreshLayout.setOnRefreshListener {
+                charactersViewModel.resetFilters()
                 adapter.refresh()
                 swipeRefreshLayout.isRefreshing = false
             }
@@ -76,7 +77,11 @@ class CharactersFragment : Fragment(), CharactersAdapter.Listener {
             menuInflater.inflate(R.menu.pop_up_menu, menu)
             setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
-                    R.id.all_sort -> { adapter.refresh(); true }
+                    R.id.all_sort -> {
+                        charactersViewModel.resetFilters()
+                        adapter.refresh();
+                        true
+                    }
                     R.id.name_sort -> { showSearchDialog(); true }
                     R.id.status_sort -> { showFilterDialog(R.layout.dialog_sort_status, ::statusSelection); true }
                     R.id.species_sort -> { showFilterDialog(R.layout.dialog_species, ::speciesSelection); true }
@@ -146,11 +151,18 @@ class CharactersFragment : Fragment(), CharactersAdapter.Listener {
         }.create().show()
     }
 
-    private fun updateQuery(name: String = charactersViewModel.query.value.name, status: String = charactersViewModel.query.value.status, species: String = charactersViewModel.query.value.species, gender: String = charactersViewModel.query.value.gender) {
+    private fun updateQuery(
+        name: String = charactersViewModel.query.value.name,
+        status: String = charactersViewModel.query.value.status,
+        species: String = charactersViewModel.query.value.species,
+        gender: String = charactersViewModel.query.value.gender
+    ) {
         charactersViewModel.updateQuery(name, status, species, gender)
     }
 
     override fun onClick(characterId: Int) {
-        findNavController().navigate(CharactersFragmentDirections.actionCharactersToDetailsCharacterFragment(characterId))
+        findNavController().navigate(
+            CharactersFragmentDirections.actionCharactersToDetailsCharacterFragment(characterId)
+        )
     }
 }
