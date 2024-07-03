@@ -11,8 +11,8 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.zalomsky.rickandmorty.domain.model.Character
 import com.zalomsky.rickandmorty.domain.model.QueryParams
-import com.zalomsky.rickandmorty.domain.usecase.GetAllCharactersUseCase
-import com.zalomsky.rickandmorty.domain.usecase.GetCharacterByIdUseCase
+import com.zalomsky.rickandmorty.domain.usecase.characters.GetAllCharactersUseCase
+import com.zalomsky.rickandmorty.domain.usecase.characters.GetCharacterByIdUseCase
 import com.zalomsky.rickandmorty.network.CharacterPageSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow

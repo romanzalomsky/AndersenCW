@@ -3,8 +3,7 @@ package com.zalomsky.rickandmorty.network
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.zalomsky.rickandmorty.domain.model.Character
-import com.zalomsky.rickandmorty.domain.usecase.GetAllCharactersUseCase
-import com.zalomsky.rickandmorty.network.api.CharacterApi
+import com.zalomsky.rickandmorty.domain.usecase.characters.GetAllCharactersUseCase
 
 class CharacterPageSource(
     private val charactersUseCase: GetAllCharactersUseCase,

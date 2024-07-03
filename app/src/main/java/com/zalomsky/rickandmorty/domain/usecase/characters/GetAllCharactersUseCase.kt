@@ -1,4 +1,4 @@
-package com.zalomsky.rickandmorty.domain.usecase
+package com.zalomsky.rickandmorty.domain.usecase.characters
 
 import com.zalomsky.rickandmorty.domain.model.CharacterResponse
 import com.zalomsky.rickandmorty.domain.repository.CharacterRepository
