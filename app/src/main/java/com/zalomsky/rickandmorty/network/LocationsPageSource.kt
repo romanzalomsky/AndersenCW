@@ -2,28 +2,27 @@ package com.zalomsky.rickandmorty.network
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.zalomsky.rickandmorty.domain.model.Character
-import com.zalomsky.rickandmorty.domain.usecase.characters.GetAllCharactersUseCase
+import com.zalomsky.rickandmorty.domain.model.Locations
+import com.zalomsky.rickandmorty.domain.usecase.locations.GetAllLocationsUseCase
 
-class CharacterPageSource(
-    private val charactersUseCase: GetAllCharactersUseCase,
+class LocationsPageSource(
+    private val getAllLocationsUseCase: GetAllLocationsUseCase,
     private val query: String,
-    private val status: String?,
-    private val species: String?,
-    private val gender: String?
-) : PagingSource<Int, Character>() {
+    private val type: String?,
+    private val dimension: String?,
+) : PagingSource<Int, Locations>() {
 
-    override fun getRefreshKey(state: PagingState<Int, Character>): Int? {
+    override fun getRefreshKey(state: PagingState<Int, Locations>): Int? {
         return state.anchorPosition?.let {
             state.closestPageToPosition(it)?.prevKey?.plus(1)
                 ?: state.closestPageToPosition(it)?.nextKey?.minus(1)
         }
     }
 
-    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Character> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Locations> {
         return try {
             val page: Int = params.key ?: 1
-            val response = charactersUseCase.execute(page, query, status, species, gender)
+            val response = getAllLocationsUseCase.execute(page, query, type, dimension)
 
             LoadResult.Page(
                 data = response.results,

@@ -1,11 +1,13 @@
 package com.zalomsky.rickandmorty.di
 
 import com.zalomsky.rickandmorty.network.api.CharacterApi
+import com.zalomsky.rickandmorty.network.api.LocationsApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
+import retrofit2.Retrofit.Builder
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
@@ -26,4 +28,11 @@ class SingletonModule {
         retrofit
             .build()
             .create(CharacterApi::class.java)
+
+    @Singleton
+    @Provides
+    fun provideLocationsApi(retrofit: Builder): LocationsApi =
+        retrofit
+            .build()
+            .create(LocationsApi::class.java)
 }

@@ -22,7 +22,7 @@
         tools:layout="@layout/fragment_episodes" />
     <fragment
         android:id="@+id/locations"
-        android:name="com.zalomsky.rickandmorty.features.LocationsFragment"
+        android:name="com.zalomsky.rickandmorty.features.locations.LocationsFragment"
         android:label="fragment_locations"
         tools:layout="@layout/fragment_locations" />
     <fragment
