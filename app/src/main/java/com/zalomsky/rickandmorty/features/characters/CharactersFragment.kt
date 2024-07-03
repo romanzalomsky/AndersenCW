@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.PopupMenu
 import android.widget.RadioGroup
+import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -59,7 +60,9 @@ class CharactersFragment : Fragment(), CharactersAdapter.Listener {
             binding.centerProgressBar.isVisible = state.refresh == LoadState.Loading
         }
 
+        setupSearchView()
         setupClickListeners()
+
         return binding.root
     }
 
@@ -68,6 +71,19 @@ class CharactersFragment : Fragment(), CharactersAdapter.Listener {
         binding.charactersList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 binding.btnScrollToTop.visibility = if ((recyclerView.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() > 0) View.VISIBLE else View.GONE
+            }
+        })
+    }
+
+    private fun setupSearchView() {
+        binding.searchCharacters.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                query?.let { updateQuery(name = it) }
+                return true
+            }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                newText?.let { updateQuery(name = it) }
+                return true
             }
         })
     }
