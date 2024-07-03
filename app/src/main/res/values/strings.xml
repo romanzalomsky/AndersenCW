@@ -5,6 +5,7 @@
     <string name="locations_text">Locations</string>
     <string name="episodes_text">Episodes</string>
     <string name="details_character_text">Character Details</string>
+    <string name="details_location_text">Location Details</string>
     <string name="search">Search</string>
 
     <string name="name_sort">Name</string>

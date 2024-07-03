@@ -2,10 +2,12 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardLocation"
     android:layout_width="match_parent"
     android:layout_height="100dp"
     android:layout_marginTop="10dp"
     android:padding="10dp"
+    android:clickable="true"
     app:cardCornerRadius="22dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -32,7 +34,7 @@
             android:id="@+id/typeLocationsTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="14dp"
             android:textSize="15sp"
             android:textColor="@color/black"
             android:fontFamily="@font/intro_head_r_base"
@@ -44,7 +46,6 @@
             android:id="@+id/dimensionsTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
             android:textSize="15sp"
             android:textColor="@color/black"
             android:fontFamily="@font/intro_head_r_base"

@@ -15,6 +15,7 @@ import com.zalomsky.rickandmorty.domain.model.Locations
 import com.zalomsky.rickandmorty.domain.model.LocationsParams
 import com.zalomsky.rickandmorty.domain.model.QueryParams
 import com.zalomsky.rickandmorty.domain.usecase.locations.GetAllLocationsUseCase
+import com.zalomsky.rickandmorty.domain.usecase.locations.GetLocationByIdUseCase
 import com.zalomsky.rickandmorty.network.CharacterPageSource
 import com.zalomsky.rickandmorty.network.LocationsPageSource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,7 +30,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LocationsViewModel @Inject constructor(
-    private val getAllLocationsUseCase: GetAllLocationsUseCase
+    private val getAllLocationsUseCase: GetAllLocationsUseCase,
+    private val getLocationByIdUseCase: GetLocationByIdUseCase
 ): ViewModel() {
 
     private val _query = MutableStateFlow(LocationsParams("", "", ""))
@@ -56,18 +58,18 @@ class LocationsViewModel @Inject constructor(
         ).flow
     }
 
-    /*private val _charactersById = MutableLiveData<Character>()
-    val charactersById: LiveData<Character>
-        get() = _charactersById
+    private val _locationsById = MutableLiveData<Locations>()
+    val locationsById: LiveData<Locations>
+        get() = _locationsById
 
-    fun getCharacterById(id: Int) {
+    fun getLocationById(id: Int) {
         viewModelScope.launch {
             try {
-                val character = characterUseCase(id)
-                _charactersById.postValue(character)
+                val location = getLocationByIdUseCase(id)
+                _locationsById.postValue(location)
             } catch (e: Exception) {
                 Log.e("asdfghjk", "Exception during request -> ${e.localizedMessage}")
             }
         }
-    }*/
+    }
 }

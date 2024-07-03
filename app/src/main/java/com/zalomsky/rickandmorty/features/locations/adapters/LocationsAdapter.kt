@@ -44,12 +44,12 @@ class LocationsAdapter(
     }
 
     inner class LocationsViewHolder(private val binding: ItemLocationsBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(Location: Locations, listener: Listener) {
+        fun bind(location: Locations, listener: Listener) {
             with(binding) {
-                nameLocationsTextView.text = Location.name
-                typeLocationsTextView.text = Location.type
-                dimensionsTextView.text = Location.dimension
-/*                charactersImage.setOnClickListener { listener.onClick(character.id) }*/
+                nameLocationsTextView.text = location.name
+                typeLocationsTextView.text = location.type
+                dimensionsTextView.text = location.dimension
+                cardLocation.setOnClickListener { listener.onClick(location.id) }
             }
         }
     }

@@ -37,20 +37,20 @@ class LocationsFragment : Fragment(), LocationsAdapter.Listener {
     private val adapter: LocationsAdapter by lazy(LazyThreadSafetyMode.NONE) { LocationsAdapter(this) }
     private val locationsViewModel: LocationsViewModel by viewModels()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = FragmentLocationsBinding.inflate(layoutInflater).apply {
             (activity as AppCompatActivity).supportActionBar?.apply {
                 title = resources.getText(R.string.locations_text)
                 setDisplayHomeAsUpEnabled(true)
             }
-/*            swipeRefreshLayout.apply {
+            swipeRefreshLayout.apply {
                 setOnRefreshListener { isRefreshing = false }
-            }*/
+            }
             locationsList.adapter = adapter.withLoadStateHeaderAndFooter(
                 header = LocationLoaderStateAdapter(),
                 footer = LocationLoaderStateAdapter()
             )
-            /*btnScrollToTop.setOnClickListener { charactersList.scrollToPosition(0) }*/
+            btnLocationScrollToTop.setOnClickListener { locationsList.scrollToPosition(0) }
         }
 
         lifecycleScope.launch {
@@ -59,7 +59,7 @@ class LocationsFragment : Fragment(), LocationsAdapter.Listener {
 
         adapter.addLoadStateListener { state ->
             binding.locationsList.isVisible = state.refresh != LoadState.Loading
-/*            binding.progress.isVisible = state.refresh == LoadState.Loading*/
+            binding.progressLocation.isVisible = state.refresh == LoadState.Loading
         }
 
         setupClickListeners()
@@ -70,11 +70,10 @@ class LocationsFragment : Fragment(), LocationsAdapter.Listener {
         binding.sortLocations.setOnClickListener { showSortMenu() }
         binding.locationsList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-                /*binding.btnScrollToTop.visibility = if ((recyclerView.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() > 0) View.VISIBLE else View.GONE*/
+                binding.btnLocationScrollToTop.visibility = if ((recyclerView.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() > 0) View.VISIBLE else View.GONE
             }
         })
     }
-
 
     private fun showSortMenu() {
         PopupMenu(requireContext(), binding.sortLocations).apply {
@@ -83,48 +82,12 @@ class LocationsFragment : Fragment(), LocationsAdapter.Listener {
                 when (menuItem.itemId) {
                     R.id.all_sort -> { adapter.refresh(); true }
                     R.id.name_sort -> { showSearchDialog(); true }
-                    R.id.type_sort -> { showFilterDialog(R.layout.dialog_sort_status, ::typeSelection); true }
-                    R.id.dimension_sort -> { showFilterDialog(R.layout.dialog_species, ::dimensionSelection); true }
+                    R.id.type_sort -> { showSearchTypeDialog(); true }
+                    R.id.dimension_sort -> { showSearchDimensionDialog(); true}
                     else -> false
                 }
             }
         }.show()
-    }
-
-    private fun showFilterDialog(layoutRes: Int, handleSelection: (View) -> Unit) {
-        AlertDialog.Builder(requireContext()).apply {
-            val dialogView = requireActivity().layoutInflater.inflate(layoutRes, null)
-            setView(dialogView)
-            setPositiveButton(R.string.submit) { _, _ -> handleSelection(dialogView) }
-            setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
-        }.create().show()
-    }
-
-    private fun typeSelection(dialogView: View) {
-        val status = when (dialogView.findViewById<RadioGroup>(R.id.radioButtonGroup).checkedRadioButtonId) {
-            R.id.status_alive -> getString(R.string.status_alive)
-            R.id.status_dead -> getString(R.string.status_dead)
-            R.id.status_unknown -> getString(R.string.status_unknown)
-            else -> ""
-        }
-        updateQuery(type = status)
-    }
-
-    private fun dimensionSelection(dialogView: View) {
-        val species = when (dialogView.findViewById<RadioGroup>(R.id.radioButtonGroupSpecies).checkedRadioButtonId) {
-            R.id.radioButtonHuman -> getString(R.string.human)
-            R.id.radioButtonAlien -> getString(R.string.alien)
-            R.id.radioButtonHumanoid -> getString(R.string.humanoid)
-            R.id.radioButtonUnknown -> getString(R.string.unknown)
-            R.id.radioButtonPoopybutthole -> getString(R.string.poopybutthole)
-            R.id.radioButtonMythological_creature -> getString(R.string.mythological_creature)
-            R.id.radioButtonAnimal -> getString(R.string.animal)
-            R.id.radioButtonRobot -> getString(R.string.robot)
-            R.id.radioButtonCronenberg -> getString(R.string.cronenberg)
-            R.id.radioButtonDisease -> getString(R.string.disease)
-            else -> ""
-        }
-        updateQuery(dimension = species)
     }
 
     private fun showSearchDialog() {
@@ -139,6 +102,30 @@ class LocationsFragment : Fragment(), LocationsAdapter.Listener {
         }.create().show()
     }
 
+    private fun showSearchTypeDialog() {
+        AlertDialog.Builder(requireContext()).apply {
+            val dialogView = requireActivity().layoutInflater.inflate(R.layout.dialog_search, null)
+            setView(dialogView)
+            setPositiveButton(R.string.search) { _, _ ->
+                val type = dialogView.findViewById<EditText>(R.id.editTextName).text.toString()
+                updateQuery(type = type)
+            }
+            setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
+        }.create().show()
+    }
+
+    private fun showSearchDimensionDialog() {
+        AlertDialog.Builder(requireContext()).apply {
+            val dialogView = requireActivity().layoutInflater.inflate(R.layout.dialog_search, null)
+            setView(dialogView)
+            setPositiveButton(R.string.search) { _, _ ->
+                val dimension = dialogView.findViewById<EditText>(R.id.editTextName).text.toString()
+                updateQuery(dimension = dimension)
+            }
+            setNegativeButton(R.string.cancel) { dialog, _ -> dialog.cancel() }
+        }.create().show()
+    }
+
     private fun updateQuery(
         name: String = locationsViewModel.query.value.name,
         type: String = locationsViewModel.query.value.type,
@@ -148,7 +135,7 @@ class LocationsFragment : Fragment(), LocationsAdapter.Listener {
     }
 
     override fun onClick(locationId: Int) {
-/*        findNavController().navigate(CharactersFragmentDirections.actionCharactersToDetailsCharacterFragment(locationId))*/
+        findNavController().navigate(LocationsFragmentDirections.actionLocationsToDetailsLocationFragment(locationId))
     }
 
 }

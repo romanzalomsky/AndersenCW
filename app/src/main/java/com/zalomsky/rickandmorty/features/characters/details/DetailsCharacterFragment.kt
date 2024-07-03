@@ -36,7 +36,7 @@ class DetailsCharacterFragment : Fragment() {
         binding = FragmentDetailsCharacterBinding.inflate(layoutInflater)
 
         (activity as AppCompatActivity).supportActionBar?.title = resources.getText(R.string.details_character_text)
-        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(false)
+        (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val image = binding.imageView
         val characterId = arguments?.getInt("characterId") ?: 0
