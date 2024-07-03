@@ -38,8 +38,9 @@ class CharactersFragment : Fragment(), CharactersAdapter.Listener {
                 title = getString(R.string.characters_text)
                 setDisplayHomeAsUpEnabled(false)
             }
-            swipeRefreshLayout.apply {
-                setOnRefreshListener { isRefreshing = false }
+            swipeRefreshLayout.setOnRefreshListener {
+                adapter.refresh()
+                swipeRefreshLayout.isRefreshing = false
             }
             charactersList.adapter = adapter.withLoadStateHeaderAndFooter(
                 header = CharacterLoaderStateAdapter(),
@@ -49,12 +50,12 @@ class CharactersFragment : Fragment(), CharactersAdapter.Listener {
         }
 
         lifecycleScope.launch {
-            charactersViewModel.charactersList.collectLatest(adapter::submitData)
+            charactersViewModel.charactersList.collectLatest{ pagingData -> adapter.submitData(pagingData) }
         }
 
         adapter.addLoadStateListener { state ->
             binding.charactersList.isVisible = state.refresh != LoadState.Loading
-            binding.progress.isVisible = state.refresh == LoadState.Loading
+            binding.centerProgressBar.isVisible = state.refresh == LoadState.Loading
         }
 
         setupClickListeners()
@@ -62,17 +63,16 @@ class CharactersFragment : Fragment(), CharactersAdapter.Listener {
     }
 
     private fun setupClickListeners() {
-        binding.sortIcon.setOnClickListener { showSortMenu() }
+        binding.sortCharacters.setOnClickListener { showSortMenu() }
         binding.charactersList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 binding.btnScrollToTop.visibility = if ((recyclerView.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() > 0) View.VISIBLE else View.GONE
             }
         })
-        binding.sortedIcon.setOnClickListener { lifecycleScope.launch { adapter.sortCharacters() } }
     }
 
     private fun showSortMenu() {
-        PopupMenu(requireContext(), binding.sortIcon).apply {
+        PopupMenu(requireContext(), binding.sortCharacters).apply {
             menuInflater.inflate(R.menu.pop_up_menu, menu)
             setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {

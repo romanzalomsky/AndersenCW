@@ -47,7 +47,7 @@ class CharactersViewModel @Inject constructor(
     private fun getFilteredCharactersList(name: String, status: String, species: String, gender: String): Flow<PagingData<Character>> {
         return Pager(
             config = PagingConfig(
-                pageSize = 10,
+                pageSize = 20,
                 enablePlaceholders = false
             ),
             pagingSourceFactory = { CharacterPageSource(charactersUseCase, name, status, species, gender) }

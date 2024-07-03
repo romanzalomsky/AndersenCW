@@ -7,17 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.zalomsky.rickandmorty.R
-import com.zalomsky.rickandmorty.databinding.FragmentCharactersBinding
 import com.zalomsky.rickandmorty.databinding.FragmentDetailsCharacterBinding
 import com.zalomsky.rickandmorty.features.characters.CharactersViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 
 class DetailsCharacterFragment : Fragment() {
 
@@ -59,10 +53,5 @@ class DetailsCharacterFragment : Fragment() {
         }
 
         return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
     }
 }
