@@ -37,12 +37,6 @@ class CharactersAdapter(
         character?.let { holder.bind(it, listener) }
     }
 
-    suspend fun sortCharacters() {
-        val sortedList = snapshot().items.sortedBy { it.name }
-        val pagingData = PagingData.from(sortedList)
-        submitData(pagingData)
-    }
-
     interface Listener {
         fun onClick(characterId: Int)
     }

@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.PopupMenu
 import android.widget.RadioGroup
+import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -38,8 +39,10 @@ class CharactersFragment : Fragment(), CharactersAdapter.Listener {
                 title = getString(R.string.characters_text)
                 setDisplayHomeAsUpEnabled(false)
             }
-            swipeRefreshLayout.apply {
-                setOnRefreshListener { isRefreshing = false }
+            swipeRefreshLayout.setOnRefreshListener {
+                charactersViewModel.resetFilters()
+                adapter.refresh()
+                swipeRefreshLayout.isRefreshing = false
             }
             charactersList.adapter = adapter.withLoadStateHeaderAndFooter(
                 header = CharacterLoaderStateAdapter(),
@@ -49,34 +52,52 @@ class CharactersFragment : Fragment(), CharactersAdapter.Listener {
         }
 
         lifecycleScope.launch {
-            charactersViewModel.charactersList.collectLatest(adapter::submitData)
+            charactersViewModel.charactersList.collectLatest{ pagingData -> adapter.submitData(pagingData) }
         }
 
         adapter.addLoadStateListener { state ->
             binding.charactersList.isVisible = state.refresh != LoadState.Loading
-            binding.progress.isVisible = state.refresh == LoadState.Loading
+            binding.centerProgressBar.isVisible = state.refresh == LoadState.Loading
         }
 
+        setupSearchView()
         setupClickListeners()
+
         return binding.root
     }
 
     private fun setupClickListeners() {
-        binding.sortIcon.setOnClickListener { showSortMenu() }
+        binding.sortCharacters.setOnClickListener { showSortMenu() }
         binding.charactersList.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 binding.btnScrollToTop.visibility = if ((recyclerView.layoutManager as LinearLayoutManager).findFirstVisibleItemPosition() > 0) View.VISIBLE else View.GONE
             }
         })
-        binding.sortedIcon.setOnClickListener { lifecycleScope.launch { adapter.sortCharacters() } }
+    }
+
+    private fun setupSearchView() {
+        binding.searchCharacters.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                query?.let { updateQuery(name = it) }
+                return true
+            }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                newText?.let { updateQuery(name = it) }
+                return true
+            }
+        })
     }
 
     private fun showSortMenu() {
-        PopupMenu(requireContext(), binding.sortIcon).apply {
+        PopupMenu(requireContext(), binding.sortCharacters).apply {
             menuInflater.inflate(R.menu.pop_up_menu, menu)
             setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
-                    R.id.all_sort -> { adapter.refresh(); true }
+                    R.id.all_sort -> {
+                        charactersViewModel.resetFilters()
+                        adapter.refresh();
+                        true
+                    }
                     R.id.name_sort -> { showSearchDialog(); true }
                     R.id.status_sort -> { showFilterDialog(R.layout.dialog_sort_status, ::statusSelection); true }
                     R.id.species_sort -> { showFilterDialog(R.layout.dialog_species, ::speciesSelection); true }
@@ -146,11 +167,18 @@ class CharactersFragment : Fragment(), CharactersAdapter.Listener {
         }.create().show()
     }
 
-    private fun updateQuery(name: String = charactersViewModel.query.value.name, status: String = charactersViewModel.query.value.status, species: String = charactersViewModel.query.value.species, gender: String = charactersViewModel.query.value.gender) {
+    private fun updateQuery(
+        name: String = charactersViewModel.query.value.name,
+        status: String = charactersViewModel.query.value.status,
+        species: String = charactersViewModel.query.value.species,
+        gender: String = charactersViewModel.query.value.gender
+    ) {
         charactersViewModel.updateQuery(name, status, species, gender)
     }
 
     override fun onClick(characterId: Int) {
-        findNavController().navigate(CharactersFragmentDirections.actionCharactersToDetailsCharacterFragment(characterId))
+        findNavController().navigate(
+            CharactersFragmentDirections.actionCharactersToDetailsCharacterFragment(characterId)
+        )
     }
 }
