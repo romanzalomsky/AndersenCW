@@ -6,90 +6,136 @@
     android:layout_height="match_parent"
     tools:context=".features.characters.details.DetailsCharacterFragment">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        android:layout_margin="10dp"
-        android:layout_marginTop="12dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.023"
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/namePlace"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="28dp"
-        android:layout_marginTop="16dp"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/imageView"
-        app:layout_constraintTop_toTopOf="@+id/imageView"
-        tools:text="Morty Smith"/>
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/imageView"
+            android:layout_width="150dp"
+            android:layout_height="170dp"
+            android:scaleType="centerCrop"
+            app:shapeAppearanceOverlay="@style/RoundedImageView"
+            tools:layout_editor_absoluteX="216dp"
+            tools:layout_editor_absoluteY="354dp" />
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/statusPlace"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="170dp"
+        android:orientation="vertical"
+        android:layout_margin="20dp"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/linearLayout"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="UselessLeaf">
+
+        <TextView
+            android:id="@+id/namePlace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/intro_head_r_base"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            tools:text="Morty Smith" />
+
+        <TextView
+            android:id="@+id/statusPlace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:fontFamily="@font/intro_head_r_base"
+            android:textColor="@color/black"
+            tools:text="Alive" />
+
+        <TextView
+            android:id="@+id/speciesPlace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/intro_head_r_base"
+            android:textSize="25sp"
+            android:textColor="@color/black"
+            tools:text="Human"/>
+
+        <TextView
+            android:id="@+id/genderPlace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:textColor="@color/black"
+            android:fontFamily="@font/intro_head_r_base"
+            tools:text="Male" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="20dp"
         android:layout_marginTop="10dp"
-        android:textSize="15sp"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="@+id/namePlace"
-        app:layout_constraintStart_toStartOf="@+id/namePlace"
-        app:layout_constraintTop_toBottomOf="@+id/namePlace"/>
-    <TextView
-        android:id="@+id/speciesPlace"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+        <TextView
+            android:id="@+id/createdPlace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/intro_head_r_base"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            tools:text=" 12.23.3421" />
+
+        <TextView
+            android:id="@+id/originPlace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/intro_head_r_base"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            tools:text="sdsdsdsdsdsdsd" />
+
+        <TextView
+            android:id="@+id/locationPlace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/intro_head_r_base"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            tools:text="sdsdsdsdsdsdsd" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="133dp"
+        android:layout_margin="20dp"
         android:layout_marginTop="10dp"
-        android:textSize="15sp"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="@+id/statusPlace"
-        app:layout_constraintStart_toStartOf="@+id/statusPlace"
-        app:layout_constraintTop_toBottomOf="@+id/statusPlace"/>
-    <TextView
-        android:id="@+id/typePlace"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textSize="15sp"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="@+id/speciesPlace"
-        app:layout_constraintStart_toStartOf="@+id/speciesPlace"
-        app:layout_constraintTop_toBottomOf="@+id/speciesPlace"/>
-    <TextView
-        android:id="@+id/genderPlace"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textSize="15sp"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="@+id/typePlace"
-        app:layout_constraintStart_toStartOf="@+id/typePlace"
-        app:layout_constraintTop_toBottomOf="@+id/typePlace"/>
-    <TextView
-        android:id="@+id/originPlace"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textSize="15sp"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="@+id/genderPlace"
-        app:layout_constraintStart_toStartOf="@+id/genderPlace"
-        app:layout_constraintTop_toBottomOf="@+id/genderPlace"/>
-    <TextView
-        android:id="@+id/locationPlace"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textSize="15sp"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="@+id/originPlace"
-        app:layout_constraintStart_toStartOf="@+id/originPlace"
-        app:layout_constraintTop_toBottomOf="@+id/originPlace"/>
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout2"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/intro_head_r_base"
+            android:text="@string/episodes_text"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+    <!--
     <TextView
         android:id="@+id/episodePlace"
         android:layout_width="wrap_content"
@@ -99,27 +145,6 @@
         android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="@+id/locationPlace"
         app:layout_constraintStart_toStartOf="@+id/locationPlace"
-        app:layout_constraintTop_toBottomOf="@+id/locationPlace"/>
-    <TextView
-        android:id="@+id/urlPlace"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textSize="15sp"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="@+id/episodePlace"
-        app:layout_constraintStart_toStartOf="@+id/episodePlace"
-        app:layout_constraintTop_toBottomOf="@+id/episodePlace"/>
-    <TextView
-        android:id="@+id/createdPlace"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:textSize="15sp"
-        android:textColor="@color/black"
-        app:layout_constraintEnd_toEndOf="@+id/urlPlace"
-        app:layout_constraintStart_toStartOf="@+id/urlPlace"
-        app:layout_constraintTop_toBottomOf="@+id/urlPlace"/>
-
+        app:layout_constraintTop_toBottomOf="@+id/locationPlace"/>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

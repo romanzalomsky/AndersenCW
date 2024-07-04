@@ -34,6 +34,10 @@ class DetailsCharacterFragment : Fragment() {
         val image = binding.imageView
         val characterId = arguments?.getInt("characterId") ?: 0
 
+        val createdAt = resources.getText(R.string.created_at)
+        val origin = resources.getText(R.string.origin)
+        val location = resources.getText(R.string.location)
+
         lifecycleScope.launch {
             detailsViewModel.getCharacterById(characterId)
                 .collect { character ->
@@ -47,11 +51,10 @@ class DetailsCharacterFragment : Fragment() {
                         statusPlace.text = character.status
                         speciesPlace.text = character.species
                         genderPlace.text = character.gender
-                        originPlace.text = "${character.origin.name}, ${character.origin.url}"
-                        locationPlace.text = "${character.location.name}, ${character.location.url}"
-                        episodePlace.text = character.episode.toString()
-                        urlPlace.text = character.url
-                        createdPlace.text = character.created
+                        originPlace.text = "${origin}" + " ${character.origin.name}"
+                        locationPlace.text = "${location}" + " ${character.location.name}"
+                        createdPlace.text = "${createdAt}" + " ${character.created}"
+                        originPlace.setOnClickListener {}
                     }
                 }
         }

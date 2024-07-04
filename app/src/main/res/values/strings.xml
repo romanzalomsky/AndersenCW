@@ -37,6 +37,9 @@
     <string name="male">Male</string>
     <string name="genderless">Genderless</string>
 
+    <string name="created_at">Created at:</string>
+    <string name="origin">Origin:</string>
+    <string name="location">Location:</string>
 
     <string name="not_supported">Not supported</string>
 
