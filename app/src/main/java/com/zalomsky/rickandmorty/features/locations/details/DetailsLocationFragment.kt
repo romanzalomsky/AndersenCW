@@ -6,17 +6,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.zalomsky.rickandmorty.R
 import com.zalomsky.rickandmorty.databinding.FragmentDetailsLocationBinding
-import com.zalomsky.rickandmorty.features.locations.LocationsViewModel
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class DetailsLocationFragment : Fragment() {
 
     private lateinit var binding: FragmentDetailsLocationBinding
-    private val viewModel: LocationsViewModel by lazy {
-        ViewModelProvider(requireActivity()).get(LocationsViewModel::class.java)
-    }
+    private val viewModel: DetailsLocationViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,16 +30,19 @@ class DetailsLocationFragment : Fragment() {
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val locationId = arguments?.getInt("locationId") ?: 0
-        viewModel.getLocationById(locationId)
-        viewModel.locationsById.observe(viewLifecycleOwner) {
-            with(binding){
-                idNameTextView.text = it.name
-                idTypeTextView.text = it.type
-                idDimensionTextView.text = it.dimension
-                idUrlTextView.text = it.url
-                idCreatedTextView.text = it.created
-                idResidentsTextView.text = it.residents.toString()
-            }
+
+        lifecycleScope.launch {
+            viewModel.getLocationById(locationId)
+                .collect { location ->
+                    with(binding) {
+                        idNameTextView.text = location.name
+                        idTypeTextView.text = location.type
+                        idDimensionTextView.text = location.dimension
+                        idUrlTextView.text = location.url
+                        idCreatedTextView.text = location.created
+                        idResidentsTextView.text = location.residents.toString()
+                    }
+                }
         }
         return binding.root
     }
