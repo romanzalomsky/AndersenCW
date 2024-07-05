@@ -34,9 +34,9 @@ class DetailsCharacterFragment : Fragment() {
         val image = binding.imageView
         val characterId = arguments?.getInt("characterId") ?: 0
 
-        val createdAt = resources.getText(R.string.created_at)
-        val origin = resources.getText(R.string.origin)
-        val location = resources.getText(R.string.location)
+        val createdAt = resources.getText(R.string.createdAt_characters)
+        val origin = resources.getText(R.string.origin_characters)
+        val location = resources.getText(R.string.location_characters)
 
         lifecycleScope.launch {
             detailsViewModel.getCharacterById(characterId)

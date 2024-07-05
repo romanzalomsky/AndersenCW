@@ -44,6 +44,10 @@
     <string name="dimension_locations">Dimension:</string>
     <string name="createdAt_locations">Created At:</string>
 
+    <string name="createdAt_characters">Created At:</string>
+    <string name="origin_characters">Origin:</string>
+    <string name="location_characters">Location:</string>
+
     <string name="not_supported">Not supported</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
