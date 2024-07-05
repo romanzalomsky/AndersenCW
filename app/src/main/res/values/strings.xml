@@ -39,6 +39,11 @@
     <string name="male">Male</string>
     <string name="genderless">Genderless</string>
 
+    <string name="name_locations">Name:</string>
+    <string name="type_locations">Type:</string>
+    <string name="dimension_locations">Dimension:</string>
+    <string name="createdAt_locations">Created At:</string>
+
     <string name="not_supported">Not supported</string>
 
     <string name="hello_blank_fragment">Hello blank fragment</string>
