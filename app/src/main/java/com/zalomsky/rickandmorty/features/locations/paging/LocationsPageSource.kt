@@ -1,4 +1,4 @@
-package com.zalomsky.rickandmorty.network
+package com.zalomsky.rickandmorty.features.locations.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState

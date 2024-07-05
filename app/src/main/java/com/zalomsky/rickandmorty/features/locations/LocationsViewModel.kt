@@ -1,8 +1,5 @@
 package com.zalomsky.rickandmorty.features.locations
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
@@ -13,7 +10,7 @@ import com.zalomsky.rickandmorty.domain.model.Locations
 import com.zalomsky.rickandmorty.domain.model.LocationsParams
 import com.zalomsky.rickandmorty.domain.usecase.locations.GetAllLocationsUseCase
 import com.zalomsky.rickandmorty.domain.usecase.locations.GetLocationByIdUseCase
-import com.zalomsky.rickandmorty.network.LocationsPageSource
+import com.zalomsky.rickandmorty.features.locations.paging.LocationsPageSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -21,7 +18,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
