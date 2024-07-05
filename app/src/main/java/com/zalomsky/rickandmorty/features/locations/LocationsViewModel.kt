@@ -9,14 +9,10 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.zalomsky.rickandmorty.domain.model.Character
-import com.zalomsky.rickandmorty.domain.model.Location
 import com.zalomsky.rickandmorty.domain.model.Locations
 import com.zalomsky.rickandmorty.domain.model.LocationsParams
-import com.zalomsky.rickandmorty.domain.model.QueryParams
 import com.zalomsky.rickandmorty.domain.usecase.locations.GetAllLocationsUseCase
 import com.zalomsky.rickandmorty.domain.usecase.locations.GetLocationByIdUseCase
-import com.zalomsky.rickandmorty.network.CharacterPageSource
 import com.zalomsky.rickandmorty.network.LocationsPageSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow

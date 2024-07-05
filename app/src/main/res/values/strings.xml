@@ -13,7 +13,6 @@
     <string name="species_sort">Species</string>
     <string name="type_sort">Type</string>
     <string name="gender_sort">Gender</string>
-    <string name="dimension_sort">Dimension</string>
     <string name="all_sort">All</string>
 
     <string name="status_alert">Sort by status</string>
@@ -38,6 +37,11 @@
     <string name="female">Female</string>
     <string name="male">Male</string>
     <string name="genderless">Genderless</string>
+
+    <string name="created_at">Created at:</string>
+    <string name="origin">Origin:</string>
+    <string name="location">Location:</string>
+    <string name="dimension_sort">Dimension</string>
 
     <string name="not_supported">Not supported</string>
 
