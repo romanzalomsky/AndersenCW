@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.PopupMenu
 import android.widget.RadioGroup
+import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -43,8 +44,10 @@ class LocationsFragment : Fragment(), LocationsAdapter.Listener {
                 title = resources.getText(R.string.locations_text)
                 setDisplayHomeAsUpEnabled(true)
             }
-            swipeRefreshLayout.apply {
-                setOnRefreshListener { isRefreshing = false }
+            swipeRefreshLayout.setOnRefreshListener {
+                locationsViewModel.resetFilters()
+                adapter.refresh()
+                swipeRefreshLayout.isRefreshing = false
             }
             locationsList.adapter = adapter.withLoadStateHeaderAndFooter(
                 header = LocationLoaderStateAdapter(),
@@ -54,7 +57,7 @@ class LocationsFragment : Fragment(), LocationsAdapter.Listener {
         }
 
         lifecycleScope.launch {
-            locationsViewModel.locationsList.collectLatest(adapter::submitData)
+            locationsViewModel.locationsList.collectLatest { pagingData -> adapter.submitData(pagingData) }
         }
 
         adapter.addLoadStateListener { state ->
@@ -62,6 +65,7 @@ class LocationsFragment : Fragment(), LocationsAdapter.Listener {
             binding.progressLocation.isVisible = state.refresh == LoadState.Loading
         }
 
+        setupSearchView()
         setupClickListeners()
         return binding.root
     }
@@ -75,12 +79,29 @@ class LocationsFragment : Fragment(), LocationsAdapter.Listener {
         })
     }
 
+    private fun setupSearchView() {
+        binding.searchLocations.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                query?.let { updateQuery(name = it) }
+                return true
+            }
+            override fun onQueryTextChange(newText: String?): Boolean {
+                newText?.let { updateQuery(name = it) }
+                return true
+            }
+        })
+    }
+
     private fun showSortMenu() {
         PopupMenu(requireContext(), binding.sortLocations).apply {
             menuInflater.inflate(R.menu.location_pop_up_menu, menu)
             setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
-                    R.id.all_sort -> { adapter.refresh(); true }
+                    R.id.all_sort -> {
+                        locationsViewModel.resetFilters()
+                        adapter.refresh();
+                        true
+                    }
                     R.id.name_sort -> { showSearchDialog(); true }
                     R.id.type_sort -> { showSearchTypeDialog(); true }
                     R.id.dimension_sort -> { showSearchDimensionDialog(); true}

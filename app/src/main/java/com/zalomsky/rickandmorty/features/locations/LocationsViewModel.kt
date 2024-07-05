@@ -48,6 +48,10 @@ class LocationsViewModel @Inject constructor(
         _query.value = LocationsParams(newQuery, newType, newDimension)
     }
 
+    fun resetFilters() {
+        _query.value = LocationsParams("", "", "")
+    }
+
     private fun getFilteredLocationsList(name: String, type: String, dimension: String): Flow<PagingData<Locations>> {
         return Pager(
             config = PagingConfig(
@@ -56,20 +60,5 @@ class LocationsViewModel @Inject constructor(
             ),
             pagingSourceFactory = { LocationsPageSource(getAllLocationsUseCase, name, type, dimension) }
         ).flow
-    }
-
-    private val _locationsById = MutableLiveData<Locations>()
-    val locationsById: LiveData<Locations>
-        get() = _locationsById
-
-    fun getLocationById(id: Int) {
-        viewModelScope.launch {
-            try {
-                val location = getLocationByIdUseCase(id)
-                _locationsById.postValue(location)
-            } catch (e: Exception) {
-                Log.e("asdfghjk", "Exception during request -> ${e.localizedMessage}")
-            }
-        }
     }
 }
