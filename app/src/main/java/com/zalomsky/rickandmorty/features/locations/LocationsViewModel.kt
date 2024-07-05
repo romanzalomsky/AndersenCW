@@ -22,8 +22,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LocationsViewModel @Inject constructor(
-    private val getAllLocationsUseCase: GetAllLocationsUseCase,
-    private val getLocationByIdUseCase: GetLocationByIdUseCase
+    private val getAllLocationsUseCase: GetAllLocationsUseCase
 ): ViewModel() {
 
     private val _query = MutableStateFlow(LocationsParams("", "", ""))

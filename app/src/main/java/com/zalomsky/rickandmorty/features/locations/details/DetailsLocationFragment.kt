@@ -31,16 +31,20 @@ class DetailsLocationFragment : Fragment() {
 
         val locationId = arguments?.getInt("locationId") ?: 0
 
+        val createdAt = resources.getText(R.string.createdAt_locations)
+        val dimension = resources.getText(R.string.dimension_locations)
+        val type = resources.getText(R.string.type_locations)
+        val name = resources.getText(R.string.name_locations)
+
         lifecycleScope.launch {
             viewModel.getLocationById(locationId)
                 .collect { location ->
                     with(binding) {
-                        idNameTextView.text = location.name
-                        idTypeTextView.text = location.type
-                        idDimensionTextView.text = location.dimension
-                        idUrlTextView.text = location.url
-                        idCreatedTextView.text = location.created
-                        idResidentsTextView.text = location.residents.toString()
+                        idNameTextView.text = "${name} " + location.name
+                        idTypeTextView.text = "${type} " + location.type
+                        idDimensionTextView.text = "${dimension} " + location.dimension
+                        idCreatedTextView.text = "${createdAt} " + location.created
+                        /*idResidentsTextView.text = location.residents.toString()*/
                     }
                 }
         }

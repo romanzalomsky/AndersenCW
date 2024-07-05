@@ -8,7 +8,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.PopupMenu
-import android.widget.RadioGroup
 import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
@@ -19,12 +18,7 @@ import androidx.paging.LoadState
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zalomsky.rickandmorty.R
-import com.zalomsky.rickandmorty.databinding.FragmentCharactersBinding
 import com.zalomsky.rickandmorty.databinding.FragmentLocationsBinding
-import com.zalomsky.rickandmorty.features.characters.CharactersFragmentDirections
-import com.zalomsky.rickandmorty.features.characters.CharactersViewModel
-import com.zalomsky.rickandmorty.features.characters.adapters.CharacterLoaderStateAdapter
-import com.zalomsky.rickandmorty.features.characters.adapters.CharactersAdapter
 import com.zalomsky.rickandmorty.features.locations.adapters.LocationLoaderStateAdapter
 import com.zalomsky.rickandmorty.features.locations.adapters.LocationsAdapter
 import dagger.hilt.android.AndroidEntryPoint
