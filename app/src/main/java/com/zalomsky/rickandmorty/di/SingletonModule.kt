@@ -1,6 +1,7 @@
 package com.zalomsky.rickandmorty.di
 
 import com.zalomsky.rickandmorty.network.api.CharacterApi
+import com.zalomsky.rickandmorty.network.api.EpisodesApi
 import com.zalomsky.rickandmorty.network.api.LocationsApi
 import dagger.Module
 import dagger.Provides
@@ -35,4 +36,11 @@ class SingletonModule {
         retrofit
             .build()
             .create(LocationsApi::class.java)
+
+    @Singleton
+    @Provides
+    fun provideEpisodeApi(retrofit: Builder): EpisodesApi =
+        retrofit
+            .build()
+            .create(EpisodesApi::class.java)
 }

@@ -2,7 +2,9 @@ package com.zalomsky.rickandmorty.di
 
 import com.zalomsky.rickandmorty.network.api.CharacterApi
 import com.zalomsky.rickandmorty.domain.repository.CharacterRepository
+import com.zalomsky.rickandmorty.domain.repository.EpisodeRepository
 import com.zalomsky.rickandmorty.domain.repository.LocationsRepository
+import com.zalomsky.rickandmorty.network.api.EpisodesApi
 import com.zalomsky.rickandmorty.network.api.LocationsApi
 import dagger.Module
 import dagger.Provides
@@ -20,4 +22,8 @@ class HiltModule {
     @Provides
     fun provideLocationsRepository(locationsApi: LocationsApi): LocationsRepository =
         LocationsRepository(locationsApi)
+
+    @Provides
+    fun provideEpisodeRepository(episodesApi: EpisodesApi): EpisodeRepository =
+        EpisodeRepository(episodesApi)
 }
