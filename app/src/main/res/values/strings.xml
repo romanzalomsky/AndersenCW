@@ -6,6 +6,7 @@
     <string name="episodes_text">Episodes</string>
     <string name="details_character_text">Character Details</string>
     <string name="details_location_text">Location Details</string>
+    <string name="details_episode_text">Episode Details</string>
     <string name="search">Search</string>
 
     <string name="name_sort">Name</string>
@@ -15,6 +16,7 @@
     <string name="gender_sort">Gender</string>
     <string name="dimension_sort">Dimension</string>
     <string name="all_sort">All</string>
+    <string name="episode_sort">Episode</string>
 
     <string name="status_alert">Sort by status</string>
     <string name="status_alive">Alive</string>
@@ -42,6 +44,8 @@
     <string name="name_locations">Name:</string>
     <string name="type_locations">Type:</string>
     <string name="dimension_locations">Dimension:</string>
+    <string name="episode_episode">Episode:</string>
+    <string name="airDate_episode">Air date:</string>
     <string name="createdAt_locations">Created At:</string>
 
     <string name="createdAt_characters">Created At:</string>

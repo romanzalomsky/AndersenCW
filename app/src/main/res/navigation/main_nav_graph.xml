@@ -17,9 +17,13 @@
     </fragment>
     <fragment
         android:id="@+id/episodes"
-        android:name="com.zalomsky.rickandmorty.features.EpisodesFragment"
+        android:name="com.zalomsky.rickandmorty.features.episodes.EpisodesFragment"
         android:label="fragment_episodes"
-        tools:layout="@layout/fragment_episodes" />
+        tools:layout="@layout/fragment_episodes" >
+        <action
+            android:id="@+id/action_episodes_to_detailsEpisodeFragment"
+            app:destination="@id/detailsEpisodeFragment" />
+    </fragment>
     <fragment
         android:id="@+id/locations"
         android:name="com.zalomsky.rickandmorty.features.locations.LocationsFragment"
@@ -59,5 +63,17 @@
         <action
             android:id="@+id/action_detailsLocationFragment_to_detailsCharacter"
             app:destination="@id/detailsCharacter" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsEpisodeFragment"
+        android:name="com.zalomsky.rickandmorty.features.episodes.details.DetailsEpisodeFragment"
+        android:label="fragment_details_episode"
+        tools:layout="@layout/fragment_details_episode" >
+        <argument
+            android:name="episodeId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_detailsEpisodeFragment_to_episodes"
+            app:destination="@id/episodes" />
     </fragment>
 </navigation>
