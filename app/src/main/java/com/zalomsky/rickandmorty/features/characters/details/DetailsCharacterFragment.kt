@@ -8,9 +8,11 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.zalomsky.rickandmorty.R
 import com.zalomsky.rickandmorty.databinding.FragmentDetailsCharacterBinding
+import com.zalomsky.rickandmorty.features.locations.details.DetailsLocationViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -18,8 +20,8 @@ import kotlinx.coroutines.launch
 class DetailsCharacterFragment : Fragment() {
 
     private lateinit var binding: FragmentDetailsCharacterBinding
-
     private val detailsViewModel: DetailsCharacterViewModel by viewModels()
+    private val locationViewModel: DetailsLocationViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,9 +33,17 @@ class DetailsCharacterFragment : Fragment() {
         (activity as AppCompatActivity).supportActionBar?.title = resources.getText(R.string.details_character_text)
         (activity as AppCompatActivity).supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        val image = binding.imageView
         val characterId = arguments?.getInt("characterId") ?: 0
 
+        setupClickers(characterId)
+
+        return binding.root
+    }
+
+    private fun setupClickers(
+        characterId: Int
+    ) {
+        val image = binding.imageView
         val createdAt = resources.getText(R.string.createdAt_characters)
         val origin = resources.getText(R.string.origin_characters)
         val location = resources.getText(R.string.location_characters)
@@ -54,11 +64,25 @@ class DetailsCharacterFragment : Fragment() {
                         originPlace.text = "${origin}" + " ${character.origin.name}"
                         locationPlace.text = "${location}" + " ${character.location.name}"
                         createdPlace.text = "${createdAt}" + " ${character.created}"
-                        originPlace.setOnClickListener {}
+                        val locationId = extractLocationId(character.location.url)
+                        originPlace.setOnClickListener {
+                            findNavController().navigate(
+                                DetailsCharacterFragmentDirections.actionDetailsCharacterToDetailsLocationFragment(locationId!!)
+                            )
+                        }
+                        locationPlace.setOnClickListener {
+                            findNavController().navigate(
+                                DetailsCharacterFragmentDirections.actionDetailsCharacterToDetailsLocationFragment(locationId!!)
+                            )
+                        }
                     }
                 }
         }
+    }
 
-        return binding.root
+    private fun extractLocationId(url: String): Int? {
+        val regex = """.*https://rickandmortyapi.com/api/location/(\d+).*""".toRegex()
+        val matchResult = regex.matchEntire(url)
+        return matchResult?.groups?.get(1)?.value?.toInt()
     }
 }

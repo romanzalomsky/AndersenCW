@@ -9,7 +9,6 @@ import androidx.paging.cachedIn
 import com.zalomsky.rickandmorty.domain.model.Locations
 import com.zalomsky.rickandmorty.domain.model.LocationsParams
 import com.zalomsky.rickandmorty.domain.usecase.locations.GetAllLocationsUseCase
-import com.zalomsky.rickandmorty.domain.usecase.locations.GetLocationByIdUseCase
 import com.zalomsky.rickandmorty.features.locations.paging.LocationsPageSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
