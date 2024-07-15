@@ -14,5 +14,13 @@
         <item name="android:progressTint">#000000</item>
         <item name="android:background">@android:color/transparent</item>
     </style>
+
     <style name="Theme.RickAndMorty" parent="Base.Theme.RickAndMorty" />
+
+    <style name="Theme.RickAndMorty.MySplash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#FFFFFF</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/splash</item>
+        <item name="windowSplashScreenAnimationDuration">1000</item>
+        <item name="postSplashScreenTheme">@style/Theme.RickAndMorty</item>
+    </style>
 </resources>

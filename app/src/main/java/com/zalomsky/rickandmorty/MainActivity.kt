@@ -3,7 +3,9 @@ package com.zalomsky.rickandmorty
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
+import android.view.ViewTreeObserver
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.zalomsky.rickandmorty.databinding.ActivityMainBinding
@@ -17,6 +19,23 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        installSplashScreen()
+
+        val content: View = findViewById(android.R.id.content)
+        content.viewTreeObserver.addOnPreDrawListener (
+            object : ViewTreeObserver.OnPreDrawListener {
+                override fun onPreDraw(): Boolean {
+                    return if (isDataReady()) {
+                        content.viewTreeObserver.removeOnPreDrawListener(this)
+                        true
+                    } else {
+                        false
+                    }
+                }
+
+            }
+        )
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -42,6 +61,10 @@ class MainActivity : AppCompatActivity() {
                 else -> bottomNavigationView.visibility = View.VISIBLE
             }
         }
+    }
+
+    private fun isDataReady(): Boolean {
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
