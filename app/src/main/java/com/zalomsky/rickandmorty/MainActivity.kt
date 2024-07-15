@@ -58,6 +58,7 @@ class MainActivity : AppCompatActivity() {
             when (destination.id) {
                 R.id.detailsCharacter -> bottomNavigationView.visibility = View.GONE
                 R.id.detailsLocationFragment -> bottomNavigationView.visibility = View.GONE
+                R.id.detailsEpisodeFragment -> bottomNavigationView.visibility = View.GONE
                 else -> bottomNavigationView.visibility = View.VISIBLE
             }
         }

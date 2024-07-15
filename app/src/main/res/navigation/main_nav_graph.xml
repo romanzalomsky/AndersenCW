@@ -47,6 +47,9 @@
         <action
             android:id="@+id/action_detailsCharacter_to_detailsLocationFragment"
             app:destination="@id/detailsLocationFragment" />
+        <action
+            android:id="@+id/action_detailsCharacter_to_detailsEpisodeFragment"
+            app:destination="@id/detailsEpisodeFragment" />
     </fragment>
     <fragment
         android:id="@+id/detailsLocationFragment"
@@ -63,6 +66,9 @@
         <action
             android:id="@+id/action_detailsLocationFragment_to_detailsCharacter"
             app:destination="@id/detailsCharacter" />
+        <action
+            android:id="@+id/action_detailsLocationFragment_to_detailsCharacter2"
+            app:destination="@id/detailsCharacter" />
     </fragment>
     <fragment
         android:id="@+id/detailsEpisodeFragment"
@@ -75,5 +81,8 @@
         <action
             android:id="@+id/action_detailsEpisodeFragment_to_episodes"
             app:destination="@id/episodes" />
+        <action
+            android:id="@+id/action_detailsEpisodeFragment_to_detailsCharacter"
+            app:destination="@id/detailsCharacter" />
     </fragment>
 </navigation>

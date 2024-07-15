@@ -1,8 +1,5 @@
 package com.zalomsky.rickandmorty.features.characters
 
-import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
@@ -12,7 +9,6 @@ import androidx.paging.cachedIn
 import com.zalomsky.rickandmorty.domain.model.Character
 import com.zalomsky.rickandmorty.domain.model.QueryParams
 import com.zalomsky.rickandmorty.domain.usecase.characters.GetAllCharactersUseCase
-import com.zalomsky.rickandmorty.domain.usecase.characters.GetCharacterByIdUseCase
 import com.zalomsky.rickandmorty.features.characters.paging.CharacterPageSource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -21,7 +17,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel

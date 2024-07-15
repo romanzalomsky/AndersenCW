@@ -2,6 +2,7 @@ package com.zalomsky.rickandmorty.features.episodes.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.paging.PagingData
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -51,6 +52,11 @@ class EpisodeAdapter(
                 cardEpisode.setOnClickListener { listener.onClick(episode.id) }
             }
         }
+    }
+
+    suspend fun submitCharacterList(episodes: List<Episode>) {
+        val pagingData: PagingData<Episode> = PagingData.from(episodes)
+        submitData(pagingData)
     }
 
 }

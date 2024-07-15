@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.zalomsky.rickandmorty.databinding.ItemCharacterBinding
 import com.zalomsky.rickandmorty.domain.model.Character
+import com.zalomsky.rickandmorty.domain.model.Episode
 
 class CharactersAdapter(
     private val listener: Listener
@@ -52,5 +53,10 @@ class CharactersAdapter(
                 charactersImage.setOnClickListener { listener.onClick(character.id) }
             }
         }
+    }
+
+    suspend fun submitCharacterList(characters: List<Character>) {
+        val pagingData: PagingData<Character> = PagingData.from(characters)
+        submitData(pagingData)
     }
 }

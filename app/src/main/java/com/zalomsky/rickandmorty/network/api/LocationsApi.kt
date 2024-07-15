@@ -1,10 +1,12 @@
 package com.zalomsky.rickandmorty.network.api
 
+import com.zalomsky.rickandmorty.domain.model.Character
 import com.zalomsky.rickandmorty.domain.model.LocationResponse
 import com.zalomsky.rickandmorty.domain.model.Locations
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
+import retrofit2.http.Url
 
 interface LocationsApi {
 
@@ -18,4 +20,7 @@ interface LocationsApi {
 
     @GET("location/{id}")
     suspend fun getLocationById(@Path("id") id: Int): Locations
+
+    @GET
+    suspend fun getCharacter(@Url residents: String): Character
 }
