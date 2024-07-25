@@ -19,8 +19,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zalomsky.rickandmorty.R
 import com.zalomsky.rickandmorty.databinding.FragmentEpisodesBinding
+import com.zalomsky.rickandmorty.features.EpisodeLoaderStateAdapter
 import com.zalomsky.rickandmorty.features.episodes.adapters.EpisodeAdapter
-import com.zalomsky.rickandmorty.features.locations.adapters.LocationLoaderStateAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -45,8 +45,8 @@ class EpisodesFragment : Fragment(), EpisodeAdapter.Listener {
                 swipeRefreshLayout.isRefreshing = false
             }
             episodesList.adapter = adapter.withLoadStateHeaderAndFooter(
-                header = LocationLoaderStateAdapter(),
-                footer = LocationLoaderStateAdapter()
+                header = EpisodeLoaderStateAdapter(),
+                footer = EpisodeLoaderStateAdapter()
             )
             btnEpisodeScrollToTop.setOnClickListener { episodesList.scrollToPosition(0) }
         }

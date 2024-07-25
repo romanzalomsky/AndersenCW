@@ -2,26 +2,22 @@ package com.zalomsky.rickandmorty.features.locations.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagingData
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.zalomsky.rickandmorty.databinding.ItemCharacterBinding
 import com.zalomsky.rickandmorty.databinding.ItemLocationsBinding
-import com.zalomsky.rickandmorty.domain.model.Character
-import com.zalomsky.rickandmorty.domain.model.Locations
+import com.zalomsky.rickandmorty.domain.model.LocationsEntity
 
 class LocationsAdapter(
     private val listener: Listener
-) : PagingDataAdapter<Locations, LocationsAdapter.LocationsViewHolder>(DIFF_CALLBACK) {
+) : PagingDataAdapter<LocationsEntity, LocationsAdapter.LocationsViewHolder>(DIFF_CALLBACK) {
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Locations>() {
-            override fun areItemsTheSame(oldItem: Locations, newItem: Locations): Boolean {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<LocationsEntity>() {
+            override fun areItemsTheSame(oldItem: LocationsEntity, newItem: LocationsEntity): Boolean {
                 return oldItem.id == newItem.id
             }
-            override fun areContentsTheSame(oldItem: Locations, newItem: Locations): Boolean {
+            override fun areContentsTheSame(oldItem: LocationsEntity, newItem: LocationsEntity): Boolean {
                 return oldItem == newItem
             }
         }
@@ -44,7 +40,7 @@ class LocationsAdapter(
     }
 
     inner class LocationsViewHolder(private val binding: ItemLocationsBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(location: Locations, listener: Listener) {
+        fun bind(location: LocationsEntity, listener: Listener) {
             with(binding) {
                 nameLocationsTextView.text = location.name
                 typeLocationsTextView.text = location.type

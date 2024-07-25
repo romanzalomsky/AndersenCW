@@ -1,7 +1,7 @@
 package com.zalomsky.rickandmorty.network.api
 
-import com.zalomsky.rickandmorty.domain.model.Character
-import com.zalomsky.rickandmorty.domain.model.Episode
+import com.zalomsky.rickandmorty.domain.model.CharacterEntity
+import com.zalomsky.rickandmorty.domain.model.EpisodeEntity
 import com.zalomsky.rickandmorty.domain.model.EpisodeResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -18,8 +18,8 @@ interface EpisodesApi {
     ): EpisodeResponse
 
     @GET("episode/{id}")
-    suspend fun getEpisodeById(@Path("id") id: Int): Episode
+    suspend fun getEpisodeById(@Path("id") id: Int): EpisodeEntity
 
     @GET
-    suspend fun getCharacter(@Url characters: String): Character
+    suspend fun getCharacter(@Url characters: String): CharacterEntity
 }

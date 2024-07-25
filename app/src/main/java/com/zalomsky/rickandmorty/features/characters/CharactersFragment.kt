@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zalomsky.rickandmorty.R
 import com.zalomsky.rickandmorty.databinding.FragmentCharactersBinding
-import com.zalomsky.rickandmorty.features.characters.adapters.CharacterLoaderStateAdapter
+import com.zalomsky.rickandmorty.features.CharacterLoaderStateAdapter
 import com.zalomsky.rickandmorty.features.characters.adapters.CharactersAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest

@@ -15,7 +15,6 @@ import com.zalomsky.rickandmorty.R
 import com.zalomsky.rickandmorty.databinding.FragmentDetailsCharacterBinding
 import com.zalomsky.rickandmorty.features.episodes.EpisodeViewModel
 import com.zalomsky.rickandmorty.features.episodes.adapters.EpisodeAdapter
-import com.zalomsky.rickandmorty.features.locations.adapters.LocationLoaderStateAdapter
 import com.zalomsky.rickandmorty.features.locations.details.DetailsLocationViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.asFlow

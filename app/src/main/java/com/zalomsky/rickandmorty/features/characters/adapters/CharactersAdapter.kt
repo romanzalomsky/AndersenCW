@@ -8,19 +8,18 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.zalomsky.rickandmorty.databinding.ItemCharacterBinding
-import com.zalomsky.rickandmorty.domain.model.Character
-import com.zalomsky.rickandmorty.domain.model.Episode
+import com.zalomsky.rickandmorty.domain.model.CharacterEntity
 
 class CharactersAdapter(
     private val listener: Listener
-) : PagingDataAdapter<Character, CharactersAdapter.CharactersViewHolder>(DIFF_CALLBACK) {
+) : PagingDataAdapter<CharacterEntity, CharactersAdapter.CharactersViewHolder>(DIFF_CALLBACK) {
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Character>() {
-            override fun areItemsTheSame(oldItem: Character, newItem: Character): Boolean {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<CharacterEntity>() {
+            override fun areItemsTheSame(oldItem: CharacterEntity, newItem: CharacterEntity): Boolean {
                 return oldItem.id == newItem.id
             }
-            override fun areContentsTheSame(oldItem: Character, newItem: Character): Boolean {
+            override fun areContentsTheSame(oldItem: CharacterEntity, newItem: CharacterEntity): Boolean {
                 return oldItem == newItem
             }
         }
@@ -43,20 +42,20 @@ class CharactersAdapter(
     }
 
     inner class CharactersViewHolder(private val binding: ItemCharacterBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(character: Character, listener: Listener) {
+        fun bind(characterEntity: CharacterEntity, listener: Listener) {
             with(binding) {
-                nameTextView.text = character.name
-                statusTextView.text = character.status
-                speciesTextView.text = character.species
-                genderTextView.text = character.gender
-                Glide.with(root.context).load(character.image).into(charactersImage)
-                charactersImage.setOnClickListener { listener.onClick(character.id) }
+                nameTextView.text = characterEntity.name
+                statusTextView.text = characterEntity.status
+                speciesTextView.text = characterEntity.species
+                genderTextView.text = characterEntity.gender
+                Glide.with(root.context).load(characterEntity.image).into(charactersImage)
+                charactersImage.setOnClickListener { listener.onClick(characterEntity.id) }
             }
         }
     }
 
-    suspend fun submitCharacterList(characters: List<Character>) {
-        val pagingData: PagingData<Character> = PagingData.from(characters)
+    suspend fun submitCharacterList(characterEntities: List<CharacterEntity>) {
+        val pagingData: PagingData<CharacterEntity> = PagingData.from(characterEntities)
         submitData(pagingData)
     }
 }

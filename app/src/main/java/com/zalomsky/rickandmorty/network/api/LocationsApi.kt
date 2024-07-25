@@ -1,8 +1,8 @@
 package com.zalomsky.rickandmorty.network.api
 
-import com.zalomsky.rickandmorty.domain.model.Character
+import com.zalomsky.rickandmorty.domain.model.CharacterEntity
 import com.zalomsky.rickandmorty.domain.model.LocationResponse
-import com.zalomsky.rickandmorty.domain.model.Locations
+import com.zalomsky.rickandmorty.domain.model.LocationsEntity
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
@@ -19,8 +19,8 @@ interface LocationsApi {
     ): LocationResponse
 
     @GET("location/{id}")
-    suspend fun getLocationById(@Path("id") id: Int): Locations
+    suspend fun getLocationById(@Path("id") id: Int): LocationsEntity
 
     @GET
-    suspend fun getCharacter(@Url residents: String): Character
+    suspend fun getCharacter(@Url residents: String): CharacterEntity
 }

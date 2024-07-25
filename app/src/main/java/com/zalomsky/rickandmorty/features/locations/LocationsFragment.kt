@@ -19,7 +19,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zalomsky.rickandmorty.R
 import com.zalomsky.rickandmorty.databinding.FragmentLocationsBinding
-import com.zalomsky.rickandmorty.features.locations.adapters.LocationLoaderStateAdapter
+import com.zalomsky.rickandmorty.databinding.ItemLocationsBinding
+import com.zalomsky.rickandmorty.features.LoaderStateAdapter
+import com.zalomsky.rickandmorty.features.LocationLoaderStateAdapter
 import com.zalomsky.rickandmorty.features.locations.adapters.LocationsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
@@ -44,14 +46,14 @@ class LocationsFragment : Fragment(), LocationsAdapter.Listener {
                 swipeRefreshLayout.isRefreshing = false
             }
             locationsList.adapter = adapter.withLoadStateHeaderAndFooter(
-                header = LocationLoaderStateAdapter(),
-                footer = LocationLoaderStateAdapter()
+                header = LoaderStateAdapter(ItemLocationsBinding::inflate),
+                footer = LoaderStateAdapter(ItemLocationsBinding::inflate)
             )
             btnLocationScrollToTop.setOnClickListener { locationsList.scrollToPosition(0) }
         }
 
         lifecycleScope.launch {
-            locationsViewModel.locationsList.collectLatest { pagingData -> adapter.submitData(pagingData) }
+            locationsViewModel.locationsEntityList.collectLatest { pagingData -> adapter.submitData(pagingData) }
         }
 
         adapter.addLoadStateListener { state ->

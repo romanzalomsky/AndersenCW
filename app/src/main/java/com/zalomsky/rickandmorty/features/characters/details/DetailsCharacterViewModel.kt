@@ -3,8 +3,8 @@ package com.zalomsky.rickandmorty.features.characters.details
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.zalomsky.rickandmorty.domain.model.Character
-import com.zalomsky.rickandmorty.domain.model.Episode
+import com.zalomsky.rickandmorty.domain.model.CharacterEntity
+import com.zalomsky.rickandmorty.domain.model.EpisodeEntity
 import com.zalomsky.rickandmorty.domain.repository.CharacterRepository
 import com.zalomsky.rickandmorty.domain.usecase.characters.GetCharacterByIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,8 +24,8 @@ class DetailsCharacterViewModel @Inject constructor(
     private val characterRepository: CharacterRepository
 ): ViewModel() {
 
-    private val _episodes = MutableStateFlow<List<Episode>>(emptyList())
-    val episodes: StateFlow<List<Episode>> = _episodes
+    private val _episodes = MutableStateFlow<List<EpisodeEntity>>(emptyList())
+    val episodes: StateFlow<List<EpisodeEntity>> = _episodes
 
     fun fetchEpisodes(urls: List<String>) {
         viewModelScope.launch {
@@ -34,7 +34,7 @@ class DetailsCharacterViewModel @Inject constructor(
         }
     }
 
-    fun getCharacterById(id: Int): Flow<Character> {
+    fun getCharacterById(id: Int): Flow<CharacterEntity> {
         return flow {
             val character = getCharacterByIdUseCase(id)
             emit(character)
