@@ -11,17 +11,21 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.zalomsky.rickandmorty.R
 import com.zalomsky.rickandmorty.databinding.FragmentDetailsLocationBinding
-import com.zalomsky.rickandmorty.features.characters.adapters.CharactersAdapter
-import com.zalomsky.rickandmorty.features.characters.details.DetailsCharacterFragmentDirections
-import com.zalomsky.rickandmorty.features.locations.adapters.LocationLoaderStateAdapter
+import com.zalomsky.rickandmorty.databinding.ItemLocationsBinding
+import com.zalomsky.rickandmorty.features.LoaderStateAdapter
+import com.zalomsky.rickandmorty.features.characters.character.CharactersAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class DetailsLocationFragment : Fragment(), CharactersAdapter.Listener {
+class DetailsLocationFragment : Fragment() {
 
     private lateinit var binding: FragmentDetailsLocationBinding
-    private val adapter: CharactersAdapter by lazy(LazyThreadSafetyMode.NONE) { CharactersAdapter(this) }
+    private val adapter: CharactersAdapter by lazy { CharactersAdapter {
+        findNavController().navigate(
+            DetailsLocationFragmentDirections.actionDetailsLocationFragmentToDetailsCharacter2(it)
+        )
+    }}
     private val viewModel: DetailsLocationViewModel by viewModels()
 
     override fun onCreateView(
@@ -39,8 +43,8 @@ class DetailsLocationFragment : Fragment(), CharactersAdapter.Listener {
                 swipeRefreshLayout.isRefreshing = false
             }
             characterLocationsList.adapter = adapter.withLoadStateHeaderAndFooter(
-                header = LocationLoaderStateAdapter(),
-                footer = LocationLoaderStateAdapter()
+                header = LoaderStateAdapter(ItemLocationsBinding::inflate),
+                footer = LoaderStateAdapter(ItemLocationsBinding::inflate)
             )
         }
 
@@ -75,11 +79,5 @@ class DetailsLocationFragment : Fragment(), CharactersAdapter.Listener {
                 }
         }
         return binding.root
-    }
-
-    override fun onClick(characterId: Int) {
-        findNavController().navigate(
-            DetailsLocationFragmentDirections.actionDetailsLocationFragmentToDetailsCharacter2(characterId)
-        )
     }
 }

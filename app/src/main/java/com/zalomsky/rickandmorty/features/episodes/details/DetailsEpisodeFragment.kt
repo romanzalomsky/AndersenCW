@@ -11,18 +11,21 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.zalomsky.rickandmorty.R
 import com.zalomsky.rickandmorty.databinding.FragmentDetailsEpisodeBinding
-import com.zalomsky.rickandmorty.features.characters.adapters.CharactersAdapter
-import com.zalomsky.rickandmorty.features.episodes.adapters.EpisodeAdapter
-import com.zalomsky.rickandmorty.features.locations.adapters.LocationLoaderStateAdapter
-import com.zalomsky.rickandmorty.features.locations.details.DetailsLocationFragmentDirections
+import com.zalomsky.rickandmorty.databinding.ItemEpisodesBinding
+import com.zalomsky.rickandmorty.features.LoaderStateAdapter
+import com.zalomsky.rickandmorty.features.characters.character.CharactersAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class DetailsEpisodeFragment : Fragment(), CharactersAdapter.Listener {
+class DetailsEpisodeFragment : Fragment() {
 
     private lateinit var binding: FragmentDetailsEpisodeBinding
-    private val adapter: CharactersAdapter by lazy(LazyThreadSafetyMode.NONE) { CharactersAdapter(this) }
+    private val adapter: CharactersAdapter by lazy { CharactersAdapter {
+        findNavController().navigate(
+            DetailsEpisodeFragmentDirections.actionDetailsEpisodeFragmentToDetailsCharacter(it)
+        )
+    } }
     private val viewModel: DetailsEpisodeViewModel by viewModels()
 
     override fun onCreateView(
@@ -41,12 +44,17 @@ class DetailsEpisodeFragment : Fragment(), CharactersAdapter.Listener {
                 swipeRefreshLayout.isRefreshing = false
             }
             characterLocationsList.adapter = adapter.withLoadStateHeaderAndFooter(
-                header = LocationLoaderStateAdapter(),
-                footer = LocationLoaderStateAdapter()
+                header = LoaderStateAdapter(ItemEpisodesBinding::inflate),
+                footer = LoaderStateAdapter(ItemEpisodesBinding::inflate)
             )
         }
 
         val episodeId = arguments?.getInt("episodeId") ?: 0
+
+        val createdAt = resources.getText(R.string.createdAt_locations)
+        val episodeText = resources.getText(R.string.episode_episode)
+        val name = resources.getText(R.string.name_locations)
+        val airDate = resources.getText(R.string.airDate_episode)
 
         lifecycleScope.launch {
             viewModel.characters.collect {characters ->
@@ -59,11 +67,6 @@ class DetailsEpisodeFragment : Fragment(), CharactersAdapter.Listener {
                 viewModel.fetchCharacters(character.characters)
             }
         }
-
-        val createdAt = resources.getText(R.string.createdAt_locations)
-        val episodeText = resources.getText(R.string.episode_episode)
-        val name = resources.getText(R.string.name_locations)
-        val airDate = resources.getText(R.string.airDate_episode)
 
         lifecycleScope.launch {
             viewModel.getEpisodeById(episodeId)
@@ -78,11 +81,5 @@ class DetailsEpisodeFragment : Fragment(), CharactersAdapter.Listener {
         }
 
         return binding.root
-    }
-
-    override fun onClick(characterId: Int) {
-        findNavController().navigate(
-            DetailsEpisodeFragmentDirections.actionDetailsEpisodeFragmentToDetailsCharacter(characterId)
-        )
     }
 }

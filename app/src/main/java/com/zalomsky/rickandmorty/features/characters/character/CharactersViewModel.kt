@@ -1,4 +1,4 @@
-package com.zalomsky.rickandmorty.features.characters
+package com.zalomsky.rickandmorty.features.characters.character
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

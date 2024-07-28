@@ -1,4 +1,4 @@
-package com.zalomsky.rickandmorty.features.episodes
+package com.zalomsky.rickandmorty.features.episodes.episode
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

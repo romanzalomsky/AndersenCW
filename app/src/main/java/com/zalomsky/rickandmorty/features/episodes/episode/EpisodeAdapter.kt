@@ -1,4 +1,4 @@
-package com.zalomsky.rickandmorty.features.episodes.adapters
+package com.zalomsky.rickandmorty.features.episodes.episode
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -10,7 +10,7 @@ import com.zalomsky.rickandmorty.databinding.ItemEpisodesBinding
 import com.zalomsky.rickandmorty.domain.model.Episode
 
 class EpisodeAdapter(
-    private val listener: Listener
+    private val onItemClickListener:(Int) -> Unit = {}
 ): PagingDataAdapter<Episode, EpisodeAdapter.EpisodeViewHolder>(DIFF_CALLBACK) {
 
     companion object {
@@ -24,9 +24,12 @@ class EpisodeAdapter(
         }
     }
 
-    override fun onBindViewHolder(holder: EpisodeAdapter.EpisodeViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: EpisodeViewHolder, position: Int) {
         val episode = getItem(position)
-        episode?.let { holder.bind(it, listener) }
+        episode?.let {
+            holder.bind(it)
+            holder.itemView.setOnClickListener { onItemClickListener.invoke(episode.id) }
+        }
     }
 
     override fun getItemCount(): Int = snapshot().items.size
@@ -34,22 +37,18 @@ class EpisodeAdapter(
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): EpisodeAdapter.EpisodeViewHolder {
+    ): EpisodeViewHolder {
         val binding = ItemEpisodesBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return EpisodeViewHolder(binding)
     }
 
-    interface Listener {
-        fun onClick(episodeId: Int)
-    }
-
     inner class EpisodeViewHolder(private val binding: ItemEpisodesBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(episode: Episode, listener: EpisodeAdapter.Listener) {
+        fun bind(episode: Episode) {
             with(binding) {
                 nameEpisodesTextView.text = episode.name
                 episodeEpisodeTextView.text = episode.episode
                 airDateTextView.text = episode.air_date
-                cardEpisode.setOnClickListener { listener.onClick(episode.id) }
+                cardEpisode.setOnClickListener { onItemClickListener(episode.id) }
             }
         }
     }
@@ -58,5 +57,4 @@ class EpisodeAdapter(
         val pagingData: PagingData<Episode> = PagingData.from(episodes)
         submitData(pagingData)
     }
-
 }

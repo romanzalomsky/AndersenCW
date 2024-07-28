@@ -1,4 +1,4 @@
-package com.zalomsky.rickandmorty.features.episodes
+package com.zalomsky.rickandmorty.features.episodes.episode
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -19,17 +19,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zalomsky.rickandmorty.R
 import com.zalomsky.rickandmorty.databinding.FragmentEpisodesBinding
-import com.zalomsky.rickandmorty.features.episodes.adapters.EpisodeAdapter
-import com.zalomsky.rickandmorty.features.locations.adapters.LocationLoaderStateAdapter
+import com.zalomsky.rickandmorty.databinding.ItemEpisodesBinding
+import com.zalomsky.rickandmorty.features.LoaderStateAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class EpisodesFragment : Fragment(), EpisodeAdapter.Listener {
+class EpisodesFragment : Fragment() {
 
     private lateinit var binding: FragmentEpisodesBinding
-    private val adapter: EpisodeAdapter by lazy(LazyThreadSafetyMode.NONE) { EpisodeAdapter(this) }
+    private val adapter: EpisodeAdapter by lazy { EpisodeAdapter {
+        findNavController().navigate(EpisodesFragmentDirections.actionEpisodesToDetailsEpisodeFragment(it))
+    } }
     private val episodeViewModel: EpisodeViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -45,8 +47,8 @@ class EpisodesFragment : Fragment(), EpisodeAdapter.Listener {
                 swipeRefreshLayout.isRefreshing = false
             }
             episodesList.adapter = adapter.withLoadStateHeaderAndFooter(
-                header = LocationLoaderStateAdapter(),
-                footer = LocationLoaderStateAdapter()
+                header = LoaderStateAdapter(ItemEpisodesBinding::inflate),
+                footer = LoaderStateAdapter(ItemEpisodesBinding::inflate)
             )
             btnEpisodeScrollToTop.setOnClickListener { episodesList.scrollToPosition(0) }
         }
@@ -134,9 +136,5 @@ class EpisodesFragment : Fragment(), EpisodeAdapter.Listener {
         episode: String = episodeViewModel.query.value.episode
     ) {
         episodeViewModel.updateQueryEpisodes(name, episode)
-    }
-
-    override fun onClick(episodeId: Int) {
-        findNavController().navigate(EpisodesFragmentDirections.actionEpisodesToDetailsEpisodeFragment(episodeId))
     }
 }

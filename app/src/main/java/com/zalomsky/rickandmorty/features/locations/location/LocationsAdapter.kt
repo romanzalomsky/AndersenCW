@@ -1,19 +1,15 @@
-package com.zalomsky.rickandmorty.features.locations.adapters
+package com.zalomsky.rickandmorty.features.locations.location
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.paging.PagingData
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import com.zalomsky.rickandmorty.databinding.ItemCharacterBinding
 import com.zalomsky.rickandmorty.databinding.ItemLocationsBinding
-import com.zalomsky.rickandmorty.domain.model.Character
 import com.zalomsky.rickandmorty.domain.model.Locations
 
 class LocationsAdapter(
-    private val listener: Listener
+    private val onItemClickListener: (Int) -> Unit = {}
 ) : PagingDataAdapter<Locations, LocationsAdapter.LocationsViewHolder>(DIFF_CALLBACK) {
 
     companion object {
@@ -36,20 +32,19 @@ class LocationsAdapter(
 
     override fun onBindViewHolder(holder: LocationsViewHolder, position: Int) {
         val location = getItem(position)
-        location?.let { holder.bind(it, listener) }
-    }
-
-    interface Listener {
-        fun onClick(locationId: Int)
+        location?.let {
+            holder.bind(it)
+            holder.itemView.setOnClickListener { onItemClickListener.invoke(location.id) }
+        }
     }
 
     inner class LocationsViewHolder(private val binding: ItemLocationsBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(location: Locations, listener: Listener) {
+        fun bind(location: Locations) {
             with(binding) {
                 nameLocationsTextView.text = location.name
                 typeLocationsTextView.text = location.type
                 dimensionsTextView.text = location.dimension
-                cardLocation.setOnClickListener { listener.onClick(location.id) }
+                cardLocation.setOnClickListener { onItemClickListener(location.id) }
             }
         }
     }

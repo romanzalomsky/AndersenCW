@@ -9,7 +9,8 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.zalomsky.rickandmorty.databinding.ActivityMainBinding
-import com.zalomsky.rickandmorty.features.characters.CharactersFragment
+import com.zalomsky.rickandmorty.features.characters.character.CharactersFragment
+import com.zalomsky.rickandmorty.utils.showIf
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -55,12 +56,11 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationView.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
-            when (destination.id) {
-                R.id.detailsCharacter -> bottomNavigationView.visibility = View.GONE
-                R.id.detailsLocationFragment -> bottomNavigationView.visibility = View.GONE
-                R.id.detailsEpisodeFragment -> bottomNavigationView.visibility = View.GONE
-                else -> bottomNavigationView.visibility = View.VISIBLE
-            }
+            bottomNavigationView.showIf(
+                destination.id == R.id.characters ||
+                destination.id == R.id.locations ||
+                destination.id == R.id.episodes
+            )
         }
     }
 
@@ -77,4 +77,5 @@ class MainActivity : AppCompatActivity() {
             else -> super.onOptionsItemSelected(item)
         }
     }
+
 }

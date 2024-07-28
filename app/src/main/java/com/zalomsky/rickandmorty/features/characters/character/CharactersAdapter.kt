@@ -1,4 +1,4 @@
-package com.zalomsky.rickandmorty.features.characters.adapters
+package com.zalomsky.rickandmorty.features.characters.character
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -6,13 +6,12 @@ import androidx.paging.PagingData
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.zalomsky.rickandmorty.databinding.ItemCharacterBinding
 import com.zalomsky.rickandmorty.domain.model.Character
-import com.zalomsky.rickandmorty.domain.model.Episode
+import com.zalomsky.rickandmorty.utils.load
 
 class CharactersAdapter(
-    private val listener: Listener
+    private val onItemClickListener: (Int) -> Unit = {}
 ) : PagingDataAdapter<Character, CharactersAdapter.CharactersViewHolder>(DIFF_CALLBACK) {
 
     companion object {
@@ -35,22 +34,21 @@ class CharactersAdapter(
 
     override fun onBindViewHolder(holder: CharactersViewHolder, position: Int) {
         val character = getItem(position)
-        character?.let { holder.bind(it, listener) }
-    }
-
-    interface Listener {
-        fun onClick(characterId: Int)
+        character?.let {
+            holder.bind(it)
+            holder.itemView.setOnClickListener { onItemClickListener.invoke(character.id) }
+        }
     }
 
     inner class CharactersViewHolder(private val binding: ItemCharacterBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(character: Character, listener: Listener) {
+        fun bind(character: Character) {
             with(binding) {
                 nameTextView.text = character.name
                 statusTextView.text = character.status
                 speciesTextView.text = character.species
                 genderTextView.text = character.gender
-                Glide.with(root.context).load(character.image).into(charactersImage)
-                charactersImage.setOnClickListener { listener.onClick(character.id) }
+                charactersImage.load(character.image)
+                charactersImage.setOnClickListener { onItemClickListener(character.id) }
             }
         }
     }

@@ -1,4 +1,4 @@
-package com.zalomsky.rickandmorty.features.characters
+package com.zalomsky.rickandmorty.features.characters.character
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -20,17 +20,21 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zalomsky.rickandmorty.R
 import com.zalomsky.rickandmorty.databinding.FragmentCharactersBinding
-import com.zalomsky.rickandmorty.features.characters.adapters.CharacterLoaderStateAdapter
-import com.zalomsky.rickandmorty.features.characters.adapters.CharactersAdapter
+import com.zalomsky.rickandmorty.databinding.ItemCharacterBinding
+import com.zalomsky.rickandmorty.features.LoaderStateAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class CharactersFragment : Fragment(), CharactersAdapter.Listener {
+class CharactersFragment : Fragment() {
 
     private lateinit var binding: FragmentCharactersBinding
-    private val adapter: CharactersAdapter by lazy(LazyThreadSafetyMode.NONE) { CharactersAdapter(this) }
+    private val adapter: CharactersAdapter by lazy { CharactersAdapter {
+        findNavController().navigate(
+            CharactersFragmentDirections.actionCharactersToDetailsCharacterFragment(it)
+        )
+    } }
     private val charactersViewModel: CharactersViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -45,8 +49,8 @@ class CharactersFragment : Fragment(), CharactersAdapter.Listener {
                 swipeRefreshLayout.isRefreshing = false
             }
             charactersList.adapter = adapter.withLoadStateHeaderAndFooter(
-                header = CharacterLoaderStateAdapter(),
-                footer = CharacterLoaderStateAdapter()
+                header = LoaderStateAdapter(ItemCharacterBinding::inflate),
+                footer = LoaderStateAdapter(ItemCharacterBinding::inflate)
             )
             btnScrollToTop.setOnClickListener { charactersList.scrollToPosition(0) }
         }
@@ -174,11 +178,5 @@ class CharactersFragment : Fragment(), CharactersAdapter.Listener {
         gender: String = charactersViewModel.query.value.gender
     ) {
         charactersViewModel.updateQuery(name, status, species, gender)
-    }
-
-    override fun onClick(characterId: Int) {
-        findNavController().navigate(
-            CharactersFragmentDirections.actionCharactersToDetailsCharacterFragment(characterId)
-        )
     }
 }

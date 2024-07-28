@@ -1,4 +1,4 @@
-package com.zalomsky.rickandmorty.features.locations
+package com.zalomsky.rickandmorty.features.locations.location
 
 import android.app.AlertDialog
 import android.os.Bundle
@@ -19,17 +19,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.zalomsky.rickandmorty.R
 import com.zalomsky.rickandmorty.databinding.FragmentLocationsBinding
-import com.zalomsky.rickandmorty.features.locations.adapters.LocationLoaderStateAdapter
-import com.zalomsky.rickandmorty.features.locations.adapters.LocationsAdapter
+import com.zalomsky.rickandmorty.databinding.ItemLocationsBinding
+import com.zalomsky.rickandmorty.features.LoaderStateAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class LocationsFragment : Fragment(), LocationsAdapter.Listener {
+class LocationsFragment : Fragment() {
 
     private lateinit var binding: FragmentLocationsBinding
-    private val adapter: LocationsAdapter by lazy(LazyThreadSafetyMode.NONE) { LocationsAdapter(this) }
+    private val adapter: LocationsAdapter by lazy { LocationsAdapter {
+        findNavController().navigate(LocationsFragmentDirections.actionLocationsToDetailsLocationFragment(it))
+    } }
     private val locationsViewModel: LocationsViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
@@ -44,8 +46,8 @@ class LocationsFragment : Fragment(), LocationsAdapter.Listener {
                 swipeRefreshLayout.isRefreshing = false
             }
             locationsList.adapter = adapter.withLoadStateHeaderAndFooter(
-                header = LocationLoaderStateAdapter(),
-                footer = LocationLoaderStateAdapter()
+                header = LoaderStateAdapter(ItemLocationsBinding::inflate),
+                footer = LoaderStateAdapter(ItemLocationsBinding::inflate)
             )
             btnLocationScrollToTop.setOnClickListener { locationsList.scrollToPosition(0) }
         }
@@ -148,9 +150,4 @@ class LocationsFragment : Fragment(), LocationsAdapter.Listener {
     ) {
         locationsViewModel.updateQueryLocations(name, type, dimension)
     }
-
-    override fun onClick(locationId: Int) {
-        findNavController().navigate(LocationsFragmentDirections.actionLocationsToDetailsLocationFragment(locationId))
-    }
-
 }

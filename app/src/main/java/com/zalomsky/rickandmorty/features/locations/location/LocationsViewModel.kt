@@ -1,4 +1,4 @@
-package com.zalomsky.rickandmorty.features.locations
+package com.zalomsky.rickandmorty.features.locations.location
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
