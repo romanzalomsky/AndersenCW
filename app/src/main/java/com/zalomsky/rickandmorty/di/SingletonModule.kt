@@ -1,11 +1,16 @@
 package com.zalomsky.rickandmorty.di
 
+import android.content.Context
+import androidx.room.Room
+import com.zalomsky.rickandmorty.data.db.AppDatabase
+import com.zalomsky.rickandmorty.domain.model.converter.Converters
 import com.zalomsky.rickandmorty.network.api.CharacterApi
 import com.zalomsky.rickandmorty.network.api.EpisodesApi
 import com.zalomsky.rickandmorty.network.api.LocationsApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.Retrofit.Builder
@@ -22,6 +27,14 @@ class SingletonModule {
         Retrofit.Builder()
             .baseUrl("https://rickandmortyapi.com/api/")
             .addConverterFactory(GsonConverterFactory.create())
+
+    @Provides
+    @Singleton
+    fun provideDatabase(@ApplicationContext context: Context): AppDatabase {
+        return Room.databaseBuilder(context, AppDatabase::class.java, "new_db")
+            .addTypeConverter(Converters())
+            .build()
+    }
 
     @Singleton
     @Provides
@@ -43,4 +56,8 @@ class SingletonModule {
         retrofit
             .build()
             .create(EpisodesApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideContext(@ApplicationContext context: Context): Context = context
 }

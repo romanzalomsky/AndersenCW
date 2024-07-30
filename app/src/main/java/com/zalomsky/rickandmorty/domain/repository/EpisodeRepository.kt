@@ -1,13 +1,11 @@
 package com.zalomsky.rickandmorty.domain.repository
 
-import com.zalomsky.rickandmorty.domain.model.Character
-import com.zalomsky.rickandmorty.domain.model.Episode
+import com.zalomsky.rickandmorty.domain.model.CharacterEntity
 import com.zalomsky.rickandmorty.domain.model.EpisodeResponse
 import com.zalomsky.rickandmorty.network.api.EpisodesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class EpisodeRepository @Inject constructor(
@@ -22,7 +20,7 @@ class EpisodeRepository @Inject constructor(
         return episodesApi.getEpisodesList(page, name, episode)
     }
 
-    suspend fun fetchCharacters(characters: List<String>): List<Character> = coroutineScope {
+    suspend fun fetchCharacters(characters: List<String>): List<CharacterEntity> = coroutineScope {
         val deferredCharacters = characters.map { characters ->
             async {
                 episodesApi.getCharacter(characters)

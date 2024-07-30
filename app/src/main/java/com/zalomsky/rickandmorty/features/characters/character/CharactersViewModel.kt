@@ -6,7 +6,7 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.zalomsky.rickandmorty.domain.model.Character
+import com.zalomsky.rickandmorty.domain.model.CharacterEntity
 import com.zalomsky.rickandmorty.domain.model.QueryParams
 import com.zalomsky.rickandmorty.domain.usecase.characters.GetAllCharactersUseCase
 import com.zalomsky.rickandmorty.features.characters.paging.CharacterPageSource
@@ -27,7 +27,7 @@ class CharactersViewModel @Inject constructor(
     private val _query = MutableStateFlow(QueryParams("", "", "", ""))
     val query: StateFlow<QueryParams> = _query
 
-    val charactersList: Flow<PagingData<Character>> = query.debounce(300)
+    val charactersList: Flow<PagingData<CharacterEntity>> = query.debounce(300)
         .distinctUntilChanged()
         .flatMapLatest { (name, status, species, gender) ->
             getFilteredCharactersList(name, status, species, gender)
@@ -42,7 +42,7 @@ class CharactersViewModel @Inject constructor(
         _query.value = QueryParams("", "", "", "")
     }
 
-    private fun getFilteredCharactersList(name: String, status: String, species: String, gender: String): Flow<PagingData<Character>> {
+    private fun getFilteredCharactersList(name: String, status: String, species: String, gender: String): Flow<PagingData<CharacterEntity>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 20,

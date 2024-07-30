@@ -1,6 +1,6 @@
 package com.zalomsky.rickandmorty.domain.repository
 
-import com.zalomsky.rickandmorty.domain.model.Character
+import com.zalomsky.rickandmorty.domain.model.CharacterEntity
 import com.zalomsky.rickandmorty.domain.model.LocationResponse
 import com.zalomsky.rickandmorty.network.api.LocationsApi
 import kotlinx.coroutines.async
@@ -21,7 +21,7 @@ class LocationsRepository @Inject constructor(
         return locationsApi.getLocationsList(page, name, type, dimension)
     }
 
-    suspend fun fetchCharacters(residents: List<String>): List<Character> = coroutineScope {
+    suspend fun fetchCharacters(residents: List<String>): List<CharacterEntity> = coroutineScope {
         val deferredCharacters = residents.map { residents ->
             async {
                 locationsApi.getCharacter(residents)

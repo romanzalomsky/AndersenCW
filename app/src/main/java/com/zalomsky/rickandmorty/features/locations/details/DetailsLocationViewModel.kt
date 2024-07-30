@@ -3,10 +3,8 @@ package com.zalomsky.rickandmorty.features.locations.details
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.zalomsky.rickandmorty.domain.model.Character
-import com.zalomsky.rickandmorty.domain.model.Episode
+import com.zalomsky.rickandmorty.domain.model.CharacterEntity
 import com.zalomsky.rickandmorty.domain.model.Locations
-import com.zalomsky.rickandmorty.domain.repository.CharacterRepository
 import com.zalomsky.rickandmorty.domain.repository.LocationsRepository
 import com.zalomsky.rickandmorty.domain.usecase.locations.GetLocationByIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -26,8 +24,8 @@ class DetailsLocationViewModel @Inject constructor(
     private val locationsRepository: LocationsRepository
 ): ViewModel() {
 
-    private val _characters = MutableStateFlow<List<Character>>(emptyList())
-    val characters: StateFlow<List<Character>> = _characters
+    private val _characters = MutableStateFlow<List<CharacterEntity>>(emptyList())
+    val characters: StateFlow<List<CharacterEntity>> = _characters
 
     fun fetchCharacters(residents: List<String>) {
         viewModelScope.launch {

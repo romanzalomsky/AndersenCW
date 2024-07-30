@@ -3,7 +3,7 @@ package com.zalomsky.rickandmorty.features.episodes.details
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.zalomsky.rickandmorty.domain.model.Character
+import com.zalomsky.rickandmorty.domain.model.CharacterEntity
 import com.zalomsky.rickandmorty.domain.model.Episode
 import com.zalomsky.rickandmorty.domain.repository.EpisodeRepository
 import com.zalomsky.rickandmorty.domain.usecase.episodes.GetEpisodeByIdUseCase
@@ -24,8 +24,8 @@ class DetailsEpisodeViewModel @Inject constructor(
     private val episodeRepository: EpisodeRepository
 ): ViewModel() {
 
-    private val _characters = MutableStateFlow<List<Character>>(emptyList())
-    val characters: StateFlow<List<Character>> = _characters
+    private val _characters = MutableStateFlow<List<CharacterEntity>>(emptyList())
+    val characters: StateFlow<List<CharacterEntity>> = _characters
 
     fun fetchCharacters(characters: List<String>) {
         viewModelScope.launch {

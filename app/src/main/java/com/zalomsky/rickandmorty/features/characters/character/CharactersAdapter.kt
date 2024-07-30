@@ -7,19 +7,19 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.zalomsky.rickandmorty.databinding.ItemCharacterBinding
-import com.zalomsky.rickandmorty.domain.model.Character
+import com.zalomsky.rickandmorty.domain.model.CharacterEntity
 import com.zalomsky.rickandmorty.utils.load
 
 class CharactersAdapter(
     private val onItemClickListener: (Int) -> Unit = {}
-) : PagingDataAdapter<Character, CharactersAdapter.CharactersViewHolder>(DIFF_CALLBACK) {
+) : PagingDataAdapter<CharacterEntity, CharactersAdapter.CharactersViewHolder>(DIFF_CALLBACK) {
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Character>() {
-            override fun areItemsTheSame(oldItem: Character, newItem: Character): Boolean {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<CharacterEntity>() {
+            override fun areItemsTheSame(oldItem: CharacterEntity, newItem: CharacterEntity): Boolean {
                 return oldItem.id == newItem.id
             }
-            override fun areContentsTheSame(oldItem: Character, newItem: Character): Boolean {
+            override fun areContentsTheSame(oldItem: CharacterEntity, newItem: CharacterEntity): Boolean {
                 return oldItem == newItem
             }
         }
@@ -41,7 +41,7 @@ class CharactersAdapter(
     }
 
     inner class CharactersViewHolder(private val binding: ItemCharacterBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(character: Character) {
+        fun bind(character: CharacterEntity) {
             with(binding) {
                 nameTextView.text = character.name
                 statusTextView.text = character.status
@@ -53,8 +53,8 @@ class CharactersAdapter(
         }
     }
 
-    suspend fun submitCharacterList(characters: List<Character>) {
-        val pagingData: PagingData<Character> = PagingData.from(characters)
+    suspend fun submitCharacterList(characters: List<CharacterEntity>) {
+        val pagingData: PagingData<CharacterEntity> = PagingData.from(characters)
         submitData(pagingData)
     }
 }
