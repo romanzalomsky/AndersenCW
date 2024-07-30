@@ -6,8 +6,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.zalomsky.rickandmorty.domain.model.LocationsEntity
-import com.zalomsky.rickandmorty.domain.model.LocationsParams
+import com.zalomsky.rickandmorty.domain.models.model.LocationsEntity
+import com.zalomsky.rickandmorty.domain.models.model.LocationsParams
 import com.zalomsky.rickandmorty.domain.usecase.locations.GetAllLocationsUseCase
 import com.zalomsky.rickandmorty.features.locations.paging.LocationsPageSource
 import dagger.hilt.android.lifecycle.HiltViewModel

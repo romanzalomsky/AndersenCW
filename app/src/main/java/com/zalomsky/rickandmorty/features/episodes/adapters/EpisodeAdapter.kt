@@ -7,7 +7,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.zalomsky.rickandmorty.databinding.ItemEpisodesBinding
-import com.zalomsky.rickandmorty.domain.model.EpisodeEntity
+import com.zalomsky.rickandmorty.domain.models.model.EpisodeEntity
 
 class EpisodeAdapter(
     private val listener: Listener

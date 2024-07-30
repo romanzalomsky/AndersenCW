@@ -3,6 +3,8 @@ package com.zalomsky.rickandmorty.di
 import android.content.Context
 import androidx.room.Room
 import com.zalomsky.rickandmorty.data.AppDatabase
+import com.zalomsky.rickandmorty.domain.models.converters.Converters
+import com.zalomsky.rickandmorty.domain.models.mappers.CharacterMapper
 import com.zalomsky.rickandmorty.network.api.CharacterApi
 import com.zalomsky.rickandmorty.network.api.EpisodesApi
 import com.zalomsky.rickandmorty.network.api.LocationsApi
@@ -28,8 +30,9 @@ class SingletonModule {
             .addConverterFactory(GsonConverterFactory.create())
 
     @Provides
-    fun provideAppDate(@ApplicationContext appContext: Context): AppDatabase{
-        return Room.databaseBuilder(appContext, AppDatabase::class.java, "app_db")
+    fun provideAppDate(@ApplicationContext appContext: Context, converters: Converters): AppDatabase{
+        return Room.databaseBuilder(appContext, AppDatabase::class.java, "new_db")
+            .addTypeConverter(converters)
             .build()
     }
 
@@ -53,4 +56,21 @@ class SingletonModule {
         retrofit
             .build()
             .create(EpisodesApi::class.java)
+
+    @Provides
+    fun provideContext(@ApplicationContext context: Context): Context {
+        return context
+    }
+
+    @Provides
+    @Singleton
+    fun provideConverters(): Converters {
+        return Converters()
+    }
+
+    @Provides
+    @Singleton
+    fun provideCharacterMapper(): CharacterMapper {
+        return CharacterMapper()
+    }
 }

@@ -1,7 +1,7 @@
 package com.zalomsky.rickandmorty.domain.repository
 
-import com.zalomsky.rickandmorty.domain.model.CharacterEntity
-import com.zalomsky.rickandmorty.domain.model.EpisodeResponse
+import com.zalomsky.rickandmorty.domain.models.model.CharacterEntity
+import com.zalomsky.rickandmorty.domain.models.model.EpisodeResponse
 import com.zalomsky.rickandmorty.network.api.EpisodesApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
@@ -16,7 +16,7 @@ class EpisodeRepository @Inject constructor(
         page: Int,
         name: String?,
         episode: String?
-    ): EpisodeResponse{
+    ): EpisodeResponse {
         return episodesApi.getEpisodesList(page, name, episode)
     }
 

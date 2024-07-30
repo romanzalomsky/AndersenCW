@@ -2,7 +2,7 @@ package com.zalomsky.rickandmorty.features.locations.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.zalomsky.rickandmorty.domain.model.LocationsEntity
+import com.zalomsky.rickandmorty.domain.models.model.LocationsEntity
 import com.zalomsky.rickandmorty.domain.usecase.locations.GetAllLocationsUseCase
 
 class LocationsPageSource(

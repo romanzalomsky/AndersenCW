@@ -1,7 +1,7 @@
 package com.zalomsky.rickandmorty.domain.repository
 
-import com.zalomsky.rickandmorty.domain.model.CharacterEntity
-import com.zalomsky.rickandmorty.domain.model.LocationResponse
+import com.zalomsky.rickandmorty.domain.models.model.CharacterEntity
+import com.zalomsky.rickandmorty.domain.models.model.LocationResponse
 import com.zalomsky.rickandmorty.network.api.LocationsApi
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll

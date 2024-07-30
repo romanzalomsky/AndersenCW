@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.zalomsky.rickandmorty.databinding.ItemCharacterBinding
-import com.zalomsky.rickandmorty.domain.model.CharacterEntity
+import com.zalomsky.rickandmorty.domain.models.model.CharacterEntity
 
 class CharactersAdapter(
     private val listener: Listener

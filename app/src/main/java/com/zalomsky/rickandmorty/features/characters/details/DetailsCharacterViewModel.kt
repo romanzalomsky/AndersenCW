@@ -3,8 +3,8 @@ package com.zalomsky.rickandmorty.features.characters.details
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.zalomsky.rickandmorty.domain.model.CharacterEntity
-import com.zalomsky.rickandmorty.domain.model.EpisodeEntity
+import com.zalomsky.rickandmorty.domain.models.model.CharacterEntity
+import com.zalomsky.rickandmorty.domain.models.model.EpisodeEntity
 import com.zalomsky.rickandmorty.domain.repository.CharacterRepository
 import com.zalomsky.rickandmorty.domain.usecase.characters.GetCharacterByIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel

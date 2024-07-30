@@ -1,8 +1,8 @@
 package com.zalomsky.rickandmorty.network.api
 
-import com.zalomsky.rickandmorty.domain.model.CharacterEntity
-import com.zalomsky.rickandmorty.domain.model.LocationResponse
-import com.zalomsky.rickandmorty.domain.model.LocationsEntity
+import com.zalomsky.rickandmorty.domain.models.model.CharacterEntity
+import com.zalomsky.rickandmorty.domain.models.model.LocationResponse
+import com.zalomsky.rickandmorty.domain.models.model.LocationsEntity
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

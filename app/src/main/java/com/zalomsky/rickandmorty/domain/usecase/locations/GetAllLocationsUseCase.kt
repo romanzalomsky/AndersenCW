@@ -1,6 +1,6 @@
 package com.zalomsky.rickandmorty.domain.usecase.locations
 
-import com.zalomsky.rickandmorty.domain.model.LocationResponse
+import com.zalomsky.rickandmorty.domain.models.model.LocationResponse
 import com.zalomsky.rickandmorty.domain.repository.LocationsRepository
 import javax.inject.Inject
 

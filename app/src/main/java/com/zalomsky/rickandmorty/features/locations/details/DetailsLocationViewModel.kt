@@ -3,8 +3,8 @@ package com.zalomsky.rickandmorty.features.locations.details
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.zalomsky.rickandmorty.domain.model.CharacterEntity
-import com.zalomsky.rickandmorty.domain.model.LocationsEntity
+import com.zalomsky.rickandmorty.domain.models.model.CharacterEntity
+import com.zalomsky.rickandmorty.domain.models.model.LocationsEntity
 import com.zalomsky.rickandmorty.domain.repository.LocationsRepository
 import com.zalomsky.rickandmorty.domain.usecase.locations.GetLocationByIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel

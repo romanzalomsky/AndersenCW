@@ -1,10 +1,6 @@
 package com.zalomsky.rickandmorty.data.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import com.zalomsky.rickandmorty.domain.model.Location
-
+/*
 @Dao
 interface LocationDao {
 
@@ -16,4 +12,4 @@ interface LocationDao {
 
     @Query("SELECT * FROM location_table WHERE id=:locationId")
     fun getLocationById(locationId: Int): Location
-}
+}*/

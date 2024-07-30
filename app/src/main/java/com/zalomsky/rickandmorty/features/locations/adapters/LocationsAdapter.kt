@@ -6,7 +6,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.zalomsky.rickandmorty.databinding.ItemLocationsBinding
-import com.zalomsky.rickandmorty.domain.model.LocationsEntity
+import com.zalomsky.rickandmorty.domain.models.model.LocationsEntity
 
 class LocationsAdapter(
     private val listener: Listener

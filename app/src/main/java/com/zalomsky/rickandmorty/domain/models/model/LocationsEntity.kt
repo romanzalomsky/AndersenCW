@@ -1,4 +1,4 @@
-package com.zalomsky.rickandmorty.domain.model
+package com.zalomsky.rickandmorty.domain.models.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

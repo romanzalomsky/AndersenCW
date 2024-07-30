@@ -2,7 +2,7 @@ package com.zalomsky.rickandmorty.features.episodes.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.zalomsky.rickandmorty.domain.model.EpisodeEntity
+import com.zalomsky.rickandmorty.domain.models.model.EpisodeEntity
 import com.zalomsky.rickandmorty.domain.usecase.episodes.GetAllEpisodesUseCase
 
 class EpisodePageSource(

@@ -6,8 +6,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.zalomsky.rickandmorty.domain.model.EpisodeEntity
-import com.zalomsky.rickandmorty.domain.model.EpisodesParams
+import com.zalomsky.rickandmorty.domain.models.model.EpisodeEntity
+import com.zalomsky.rickandmorty.domain.models.model.EpisodesParams
 import com.zalomsky.rickandmorty.domain.usecase.episodes.GetAllEpisodesUseCase
 import com.zalomsky.rickandmorty.features.episodes.paging.EpisodePageSource
 import dagger.hilt.android.lifecycle.HiltViewModel

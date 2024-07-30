@@ -11,6 +11,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.zalomsky.rickandmorty.R
 import com.zalomsky.rickandmorty.databinding.FragmentDetailsLocationBinding
+import com.zalomsky.rickandmorty.features.LocationLoaderStateAdapter
 import com.zalomsky.rickandmorty.features.characters.adapters.CharactersAdapter
 import com.zalomsky.rickandmorty.features.characters.details.DetailsCharacterFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint

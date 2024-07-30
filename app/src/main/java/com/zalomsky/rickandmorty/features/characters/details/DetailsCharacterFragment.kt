@@ -13,6 +13,7 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.zalomsky.rickandmorty.R
 import com.zalomsky.rickandmorty.databinding.FragmentDetailsCharacterBinding
+import com.zalomsky.rickandmorty.features.LocationLoaderStateAdapter
 import com.zalomsky.rickandmorty.features.episodes.EpisodeViewModel
 import com.zalomsky.rickandmorty.features.episodes.adapters.EpisodeAdapter
 import com.zalomsky.rickandmorty.features.locations.details.DetailsLocationViewModel
