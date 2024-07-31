@@ -6,8 +6,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.zalomsky.rickandmorty.domain.model.CharacterEntity
-import com.zalomsky.rickandmorty.domain.model.QueryParams
+import com.zalomsky.rickandmorty.domain.models.model.CharacterEntity
+import com.zalomsky.rickandmorty.domain.models.model.QueryParams
 import com.zalomsky.rickandmorty.domain.usecase.characters.GetAllCharactersUseCase
 import com.zalomsky.rickandmorty.features.characters.paging.CharacterPageSource
 import dagger.hilt.android.lifecycle.HiltViewModel

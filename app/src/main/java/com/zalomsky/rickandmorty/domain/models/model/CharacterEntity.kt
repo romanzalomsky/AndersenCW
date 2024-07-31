@@ -1,9 +1,9 @@
-package com.zalomsky.rickandmorty.domain.model
+package com.zalomsky.rickandmorty.domain.models.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
-import com.zalomsky.rickandmorty.domain.model.converter.Converters
+import com.zalomsky.rickandmorty.domain.models.converter.Converters
 
 @Entity(tableName = "character_table")
 @TypeConverters(Converters::class)

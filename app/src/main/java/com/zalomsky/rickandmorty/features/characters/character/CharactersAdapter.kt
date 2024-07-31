@@ -7,7 +7,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.zalomsky.rickandmorty.databinding.ItemCharacterBinding
-import com.zalomsky.rickandmorty.domain.model.CharacterEntity
+import com.zalomsky.rickandmorty.domain.models.model.CharacterEntity
 import com.zalomsky.rickandmorty.utils.load
 
 class CharactersAdapter(

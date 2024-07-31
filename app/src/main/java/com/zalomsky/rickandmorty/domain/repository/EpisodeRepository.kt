@@ -1,23 +1,38 @@
 package com.zalomsky.rickandmorty.domain.repository
 
-import com.zalomsky.rickandmorty.domain.model.CharacterEntity
-import com.zalomsky.rickandmorty.domain.model.EpisodeResponse
+import android.content.Context
+import com.zalomsky.rickandmorty.data.dao.EpisodeDao
+import com.zalomsky.rickandmorty.data.dao.LocationDao
+import com.zalomsky.rickandmorty.domain.models.model.CharacterEntity
+import com.zalomsky.rickandmorty.domain.models.model.EpisodeEntity
+import com.zalomsky.rickandmorty.domain.models.model.EpisodeResponse
+import com.zalomsky.rickandmorty.domain.models.model.LocationsEntity
 import com.zalomsky.rickandmorty.network.api.EpisodesApi
+import com.zalomsky.rickandmorty.network.isInternetAvailable
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import javax.inject.Inject
 
 class EpisodeRepository @Inject constructor(
-    private val episodesApi: EpisodesApi
+    private val episodesApi: EpisodesApi,
+    private val episodeDao: EpisodeDao,
+    private val context: Context
 ) {
 
     suspend fun getEpisodeList(
         page: Int,
         name: String?,
         episode: String?
-    ): EpisodeResponse{
-        return episodesApi.getEpisodesList(page, name, episode)
+    ): List<EpisodeEntity> {
+        return if (isInternetAvailable(context)) {
+            val response = episodesApi.getEpisodesList(page, name, episode)
+            val episodes = response.results.map { it.toEpisodeEntity() }
+            episodeDao.insertEpisodes(episodes)
+            episodes
+        } else {
+            episodeDao.getAllEpisodes()
+        }
     }
 
     suspend fun fetchCharacters(characters: List<String>): List<CharacterEntity> = coroutineScope {
@@ -29,5 +44,13 @@ class EpisodeRepository @Inject constructor(
         deferredCharacters.awaitAll()
     }
 
-    suspend fun getEpisodeById(id: Int) = episodesApi.getEpisodeById(id)
+    suspend fun getEpisodeById(id: Int): EpisodeEntity {
+        return if (isInternetAvailable(context)) {
+            val episode = episodesApi.getEpisodeById(id)
+            episodeDao.insertEpisodes(listOf(episode.toEpisodeEntity()))
+            episode.toEpisodeEntity()
+        } else {
+            episodeDao.getEpisodeById(id)
+        }
+    }
 }

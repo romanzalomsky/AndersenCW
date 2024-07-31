@@ -2,7 +2,7 @@ package com.zalomsky.rickandmorty.features.characters.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import com.zalomsky.rickandmorty.domain.model.CharacterEntity
+import com.zalomsky.rickandmorty.domain.models.model.CharacterEntity
 import com.zalomsky.rickandmorty.domain.usecase.characters.GetAllCharactersUseCase
 
 class CharacterPageSource(

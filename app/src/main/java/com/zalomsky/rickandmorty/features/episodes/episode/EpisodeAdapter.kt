@@ -7,18 +7,18 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.zalomsky.rickandmorty.databinding.ItemEpisodesBinding
-import com.zalomsky.rickandmorty.domain.model.Episode
+import com.zalomsky.rickandmorty.domain.models.model.EpisodeEntity
 
 class EpisodeAdapter(
     private val onItemClickListener:(Int) -> Unit = {}
-): PagingDataAdapter<Episode, EpisodeAdapter.EpisodeViewHolder>(DIFF_CALLBACK) {
+): PagingDataAdapter<EpisodeEntity, EpisodeAdapter.EpisodeViewHolder>(DIFF_CALLBACK) {
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<Episode>() {
-            override fun areItemsTheSame(oldItem: Episode, newItem: Episode): Boolean {
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<EpisodeEntity>() {
+            override fun areItemsTheSame(oldItem: EpisodeEntity, newItem: EpisodeEntity): Boolean {
                 return oldItem.id == newItem.id
             }
-            override fun areContentsTheSame(oldItem: Episode, newItem: Episode): Boolean {
+            override fun areContentsTheSame(oldItem: EpisodeEntity, newItem: EpisodeEntity): Boolean {
                 return oldItem == newItem
             }
         }
@@ -43,18 +43,18 @@ class EpisodeAdapter(
     }
 
     inner class EpisodeViewHolder(private val binding: ItemEpisodesBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(episode: Episode) {
+        fun bind(episodeEntity: EpisodeEntity) {
             with(binding) {
-                nameEpisodesTextView.text = episode.name
-                episodeEpisodeTextView.text = episode.episode
-                airDateTextView.text = episode.air_date
-                cardEpisode.setOnClickListener { onItemClickListener(episode.id) }
+                nameEpisodesTextView.text = episodeEntity.name
+                episodeEpisodeTextView.text = episodeEntity.episode
+                airDateTextView.text = episodeEntity.air_date
+                cardEpisode.setOnClickListener { onItemClickListener(episodeEntity.id) }
             }
         }
     }
 
-    suspend fun submitCharacterList(episodes: List<Episode>) {
-        val pagingData: PagingData<Episode> = PagingData.from(episodes)
+    suspend fun submitCharacterList(episodeEntities: List<EpisodeEntity>) {
+        val pagingData: PagingData<EpisodeEntity> = PagingData.from(episodeEntities)
         submitData(pagingData)
     }
 }

@@ -7,11 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.zalomsky.rickandmorty.R
 import com.zalomsky.rickandmorty.databinding.FragmentDetailsCharacterBinding
 import com.zalomsky.rickandmorty.databinding.ItemCharacterBinding
+import com.zalomsky.rickandmorty.domain.models.model.CharacterEntity
 import com.zalomsky.rickandmorty.features.LoaderStateAdapter
 import com.zalomsky.rickandmorty.features.episodes.episode.EpisodeAdapter
 import com.zalomsky.rickandmorty.utils.load
@@ -50,6 +53,17 @@ class DetailsCharacterFragment : Fragment() {
         }
 
         val characterId = arguments?.getInt("characterId") ?: 0
+        detailsViewModel.fetchCharacterById(characterId)
+
+        lifecycleScope.launch { 
+            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                detailsViewModel.character.collect { character ->
+                    character?.let {
+                        displayCharacter(it)
+                    }
+                }
+            }
+        }
 
         lifecycleScope.launch {
             detailsViewModel.episodes.collect {episodes ->
@@ -57,47 +71,39 @@ class DetailsCharacterFragment : Fragment() {
             }
         }
 
-        lifecycleScope.launch {
-            detailsViewModel.getCharacterById(characterId).collect { character ->
+        /*lifecycleScope.launch {
+            detailsViewModel.fetchCharacterById(characterId).collect { character ->
                 detailsViewModel.fetchEpisodes(character.episode)
             }
-        }
-
-        setupClickers(characterId)
+        }*/
         return binding.root
     }
 
-    private fun setupClickers(
-        characterId: Int
-    ) {
-        val image = binding.imageView
+    private fun displayCharacter(character: CharacterEntity) {
+
         val createdAt = resources.getText(R.string.createdAt_characters)
         val origin = resources.getText(R.string.origin_characters)
         val location = resources.getText(R.string.location_characters)
 
-        lifecycleScope.launch {
-            detailsViewModel.getCharacterById(characterId).collect { character ->
-                image.load(character.image)
-                binding.namePlace.text = character.name
-                binding.statusPlace.text = character.status
-                binding.speciesPlace.text = character.species
-                binding.genderPlace.text = character.gender
-                binding.originPlace.text = "${origin}" + " ${character.origin.name}"
-                binding.locationPlace.text = "${location}" + " ${character.location.name}"
-                binding.createdPlace.text = "${createdAt}" + " ${character.created}"
+        binding.imageView.load(character.image)
+        binding.namePlace.text = character.name
+        binding.statusPlace.text = character.status
+        binding.speciesPlace.text = character.species
+        binding.genderPlace.text = character.gender
+        binding.originPlace.text = "${origin} ${character.origin.name}"
+        binding.locationPlace.text = "${location} ${character.location.name}"
+        binding.createdPlace.text = "${createdAt} ${character.created}"
 
-                val locationId = extractLocationId(character.location.url)
-                binding.originPlace.setOnClickListener {
-                    findNavController().navigate(
-                        DetailsCharacterFragmentDirections.actionDetailsCharacterToDetailsLocationFragment(locationId!!)
-                    )
-                }
-                binding.locationPlace.setOnClickListener {
-                    findNavController().navigate(
-                        DetailsCharacterFragmentDirections.actionDetailsCharacterToDetailsLocationFragment(locationId!!)
-                    )
-                }
-            }
+        val locationId = extractLocationId(character.location.url)
+        binding.originPlace.setOnClickListener {
+            findNavController().navigate(
+                DetailsCharacterFragmentDirections.actionDetailsCharacterToDetailsLocationFragment(locationId!!)
+            )
+        }
+        binding.locationPlace.setOnClickListener {
+            findNavController().navigate(
+                DetailsCharacterFragmentDirections.actionDetailsCharacterToDetailsLocationFragment(locationId!!)
+            )
         }
     }
 

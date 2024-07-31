@@ -3,7 +3,7 @@ package com.zalomsky.rickandmorty.di
 import android.content.Context
 import androidx.room.Room
 import com.zalomsky.rickandmorty.data.db.AppDatabase
-import com.zalomsky.rickandmorty.domain.model.converter.Converters
+import com.zalomsky.rickandmorty.domain.models.converter.Converters
 import com.zalomsky.rickandmorty.network.api.CharacterApi
 import com.zalomsky.rickandmorty.network.api.EpisodesApi
 import com.zalomsky.rickandmorty.network.api.LocationsApi
@@ -31,7 +31,7 @@ class SingletonModule {
     @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): AppDatabase {
-        return Room.databaseBuilder(context, AppDatabase::class.java, "new_db")
+        return Room.databaseBuilder(context, AppDatabase::class.java, "new3_db")
             .addTypeConverter(Converters())
             .build()
     }

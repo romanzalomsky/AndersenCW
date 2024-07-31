@@ -1,11 +1,11 @@
-package com.zalomsky.rickandmorty.domain.model.converter
+package com.zalomsky.rickandmorty.domain.models.converter
 
 import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.zalomsky.rickandmorty.domain.model.Location
-import com.zalomsky.rickandmorty.domain.model.Origin
+import com.zalomsky.rickandmorty.domain.models.model.Location
+import com.zalomsky.rickandmorty.domain.models.model.Origin
 
 @ProvidedTypeConverter
 class Converters {

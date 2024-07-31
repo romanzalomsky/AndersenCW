@@ -1,7 +1,9 @@
 package com.zalomsky.rickandmorty.di
 
 import android.content.Context
-import com.zalomsky.rickandmorty.data.CharacterDao
+import com.zalomsky.rickandmorty.data.dao.CharacterDao
+import com.zalomsky.rickandmorty.data.dao.EpisodeDao
+import com.zalomsky.rickandmorty.data.dao.LocationDao
 import com.zalomsky.rickandmorty.data.db.AppDatabase
 import com.zalomsky.rickandmorty.network.api.CharacterApi
 import com.zalomsky.rickandmorty.domain.repository.CharacterRepository
@@ -27,15 +29,33 @@ class HiltModule {
         CharacterRepository(characterApi, characterDao, context)
 
     @Provides
-    fun provideLocationsRepository(locationsApi: LocationsApi): LocationsRepository =
-        LocationsRepository(locationsApi)
+    fun provideLocationsRepository(
+        locationsApi: LocationsApi,
+        locationDao: LocationDao,
+        context: Context
+    ): LocationsRepository =
+        LocationsRepository(locationsApi, locationDao, context)
 
     @Provides
-    fun provideEpisodeRepository(episodesApi: EpisodesApi): EpisodeRepository =
-        EpisodeRepository(episodesApi)
+    fun provideEpisodeRepository(
+        episodesApi: EpisodesApi,
+        episodeDao: EpisodeDao,
+        context: Context
+    ): EpisodeRepository =
+        EpisodeRepository(episodesApi, episodeDao, context)
 
     @Provides
     fun provideCharacterDao(database: AppDatabase): CharacterDao {
         return database.characterDao()
+    }
+
+    @Provides
+    fun provideLocationDao(database: AppDatabase): LocationDao {
+        return database.locationDao()
+    }
+
+    @Provides
+    fun provideEpisodeDao(database: AppDatabase): EpisodeDao {
+        return database.episodeDao()
     }
 }

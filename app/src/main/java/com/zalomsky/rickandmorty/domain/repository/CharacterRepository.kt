@@ -1,10 +1,10 @@
 package com.zalomsky.rickandmorty.domain.repository
 
 import android.content.Context
-import com.zalomsky.rickandmorty.data.CharacterDao
-import com.zalomsky.rickandmorty.domain.model.CharacterEntity
-import com.zalomsky.rickandmorty.domain.model.CharacterResponse
-import com.zalomsky.rickandmorty.domain.model.Episode
+import android.util.Log
+import com.zalomsky.rickandmorty.data.dao.CharacterDao
+import com.zalomsky.rickandmorty.domain.models.model.CharacterEntity
+import com.zalomsky.rickandmorty.domain.models.model.EpisodeEntity
 import com.zalomsky.rickandmorty.network.api.CharacterApi
 import com.zalomsky.rickandmorty.network.isInternetAvailable
 import kotlinx.coroutines.async
@@ -35,8 +35,7 @@ class CharacterRepository @Inject constructor(
         }
     }
 
-
-    suspend fun fetchEpisodes(urls: List<String>): List<Episode> = coroutineScope {
+    suspend fun fetchEpisodes(urls: List<String>): List<EpisodeEntity> = coroutineScope {
         val deferredEpisodes = urls.map { url ->
             async {
                 characterApi.getEpisode(url)
@@ -50,6 +49,7 @@ class CharacterRepository @Inject constructor(
             val character = characterApi.getCharacterById(id)
             characterDao.insertCharacters(listOf(character.toCharacterEntity()))
             character.toCharacterEntity()
+            characterDao.getCharacterById(id)
         } else {
             characterDao.getCharacterById(id)
         }

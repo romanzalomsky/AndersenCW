@@ -53,7 +53,7 @@ class LocationsFragment : Fragment() {
         }
 
         lifecycleScope.launch {
-            locationsViewModel.locationsList.collectLatest { pagingData -> adapter.submitData(pagingData) }
+            locationsViewModel.locationsEntityList.collectLatest { pagingData -> adapter.submitData(pagingData) }
         }
 
         adapter.addLoadStateListener { state ->

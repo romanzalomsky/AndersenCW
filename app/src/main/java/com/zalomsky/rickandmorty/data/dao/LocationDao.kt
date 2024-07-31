@@ -1,0 +1,20 @@
+package com.zalomsky.rickandmorty.data.dao
+
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
+import com.zalomsky.rickandmorty.domain.models.model.LocationsEntity
+
+@Dao
+interface LocationDao {
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertLocations(locations: List<LocationsEntity>)
+
+    @Query("SELECT * FROM location_table")
+    suspend fun getAllLocations(): List<LocationsEntity>
+
+    @Query("SELECT * FROM location_table WHERE id=:locationId")
+    suspend fun getLocationById(locationId: Int): LocationsEntity
+}

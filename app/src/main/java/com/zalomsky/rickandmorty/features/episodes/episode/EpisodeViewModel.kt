@@ -6,8 +6,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.zalomsky.rickandmorty.domain.model.Episode
-import com.zalomsky.rickandmorty.domain.model.EpisodesParams
+import com.zalomsky.rickandmorty.domain.models.model.EpisodeEntity
+import com.zalomsky.rickandmorty.domain.models.model.EpisodesParams
 import com.zalomsky.rickandmorty.domain.usecase.episodes.GetAllEpisodesUseCase
 import com.zalomsky.rickandmorty.features.episodes.paging.EpisodePageSource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,7 +27,7 @@ class EpisodeViewModel @Inject constructor(
     private val _query = MutableStateFlow(EpisodesParams("", ""))
     val query: StateFlow<EpisodesParams> = _query
 
-    val episodesList: Flow<PagingData<Episode>> = query.debounce(300)
+    val episodesList: Flow<PagingData<EpisodeEntity>> = query.debounce(300)
         .distinctUntilChanged()
         .flatMapLatest { (name, episode) ->
             getFilteredEpisodesList(name, episode)
@@ -42,7 +42,7 @@ class EpisodeViewModel @Inject constructor(
         _query.value = EpisodesParams("", "")
     }
 
-    private fun getFilteredEpisodesList(name: String, episode: String): Flow<PagingData<Episode>> {
+    private fun getFilteredEpisodesList(name: String, episode: String): Flow<PagingData<EpisodeEntity>> {
         return Pager(
             config = PagingConfig(
                 pageSize = 10,
