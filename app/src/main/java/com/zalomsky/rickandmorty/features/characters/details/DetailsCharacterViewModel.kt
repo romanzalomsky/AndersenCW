@@ -42,7 +42,7 @@ class DetailsCharacterViewModel @Inject constructor(
     fun fetchCharacterById(id: Int) {
         viewModelScope.launch {
             try {
-                val character = characterRepository.getCharacterById(id)
+                val character = getCharacterByIdUseCase(id)
                 _character.value = character
             } catch (e: Exception) {
                 Log.e("CharacterViewModel", "Error fetching character by id $id", e)

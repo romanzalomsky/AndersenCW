@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.zalomsky.rickandmorty.domain.models.model.CharacterEntity
+import com.zalomsky.rickandmorty.domain.models.model.EpisodeEntity
 
 @Dao
 interface CharacterDao {
@@ -18,13 +19,14 @@ interface CharacterDao {
     @Query("SELECT * FROM character_table WHERE id=:characterId")
     suspend fun getCharacterById(characterId: Int): CharacterEntity
 
-    @Query("""
-        SELECT * FROM character_table 
-        WHERE (:name IS NULL OR name LIKE '%' || :name || '%') 
-        AND (:status IS NULL OR status = :status) 
-        AND (:species IS NULL OR species = :species) 
-        AND (:gender IS NULL OR gender = :gender)
-    """)
+/*    @Query("SELECT * FROM character_table WHERE url IN (:urls)")
+    suspend fun getEpisodesByUrls(urls: List<String>): List<EpisodeEntity>*/
+
+    @Query("SELECT * FROM character_table WHERE " +
+            "name LIKE '%' || :name || '%' " +
+            "AND status LIKE '%' || :status || '%' " +
+            "AND species LIKE '%' || :species || '%' " +
+            "AND gender LIKE '%' || :gender || '%'")
     suspend fun getFilteredCharacters(
         name: String?,
         status: String?,

@@ -55,12 +55,10 @@ class DetailsCharacterFragment : Fragment() {
         val characterId = arguments?.getInt("characterId") ?: 0
         detailsViewModel.fetchCharacterById(characterId)
 
-        lifecycleScope.launch { 
-            viewLifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                detailsViewModel.character.collect { character ->
-                    character?.let {
-                        displayCharacter(it)
-                    }
+        lifecycleScope.launch {
+            detailsViewModel.character.collect { character ->
+                character?.let {
+                    displayCharacter(it)
                 }
             }
         }
@@ -76,6 +74,11 @@ class DetailsCharacterFragment : Fragment() {
                 detailsViewModel.fetchEpisodes(character.episode)
             }
         }*/
+
+        //todo: When u get a list,
+        // you need to filter it in the fragment.
+        // Get it and after filter.
+        // Or you can create a filter method in adapter
         return binding.root
     }
 
