@@ -27,6 +27,9 @@ class DetailsLocationViewModel @Inject constructor(
     private val _characters = MutableStateFlow<List<CharacterEntity>>(emptyList())
     val characters: StateFlow<List<CharacterEntity>> = _characters
 
+    private val _location = MutableStateFlow<LocationsEntity?>(null)
+    val location: StateFlow<LocationsEntity?> = _location
+
     fun fetchCharacters(residents: List<String>) {
         viewModelScope.launch {
             val characters = locationsRepository.fetchCharacters(residents)
@@ -34,12 +37,14 @@ class DetailsLocationViewModel @Inject constructor(
         }
     }
 
-    fun getLocationById(id: Int): Flow<LocationsEntity> {
-        return flow {
-            val location = getLocationByIdUseCase(id)
-            emit(location)
-        }.catch { e ->
-            Log.e("DetailsLocationViewModel", "Error getting character: ${e.message}")
-        }.flowOn(Dispatchers.IO)
+    fun getLocationById(id: Int) {
+        viewModelScope.launch {
+            try {
+                val location = getLocationByIdUseCase(id)
+                _location.value = location
+            } catch (e: Exception) {
+                Log.e("LocationViewModel", "Error fetching location by id $id", e)
+            }
+        }
     }
 }

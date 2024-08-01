@@ -1,8 +1,6 @@
 package com.zalomsky.rickandmorty.features.characters.details
 
 import android.util.Log
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.zalomsky.rickandmorty.domain.models.model.CharacterEntity
@@ -10,13 +8,8 @@ import com.zalomsky.rickandmorty.domain.models.model.EpisodeEntity
 import com.zalomsky.rickandmorty.domain.repository.CharacterRepository
 import com.zalomsky.rickandmorty.domain.usecase.characters.GetCharacterByIdUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

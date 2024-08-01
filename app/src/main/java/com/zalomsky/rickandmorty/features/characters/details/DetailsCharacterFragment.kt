@@ -75,10 +75,6 @@ class DetailsCharacterFragment : Fragment() {
             }
         }*/
 
-        //todo: When u get a list,
-        // you need to filter it in the fragment.
-        // Get it and after filter.
-        // Or you can create a filter method in adapter
         return binding.root
     }
 

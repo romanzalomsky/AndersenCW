@@ -27,6 +27,9 @@ class DetailsEpisodeViewModel @Inject constructor(
     private val _characters = MutableStateFlow<List<CharacterEntity>>(emptyList())
     val characters: StateFlow<List<CharacterEntity>> = _characters
 
+    private val _episode = MutableStateFlow<EpisodeEntity?>(null)
+    val episode: StateFlow<EpisodeEntity?> get() = _episode
+
     fun fetchCharacters(characters: List<String>) {
         viewModelScope.launch {
             val characters = episodeRepository.fetchCharacters(characters)
@@ -34,12 +37,14 @@ class DetailsEpisodeViewModel @Inject constructor(
         }
     }
 
-    fun getEpisodeById(id: Int): Flow<EpisodeEntity> {
-        return flow {
-            val episode = getEpisodeByIdUseCase(id)
-            emit(episode)
-        }.catch { e ->
-            Log.e("DetailsEpisodeViewModel", "Error getting episode: ${e.message}")
-        }.flowOn(Dispatchers.IO)
+    fun fetchEpisodeById(id: Int) {
+        viewModelScope.launch {
+            try {
+                val episode = getEpisodeByIdUseCase(id)
+                _episode.value = episode
+            } catch (e: Exception) {
+                Log.e("EpisodeViewModel", "Error fetching episode by id $id", e)
+            }
+        }
     }
 }

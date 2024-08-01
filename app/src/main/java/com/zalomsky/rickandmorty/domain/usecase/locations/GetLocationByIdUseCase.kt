@@ -8,5 +8,7 @@ class GetLocationByIdUseCase @Inject constructor(
     private val locationsRepository: LocationsRepository
 ) {
 
-    suspend operator fun invoke(id: Int): LocationsEntity = locationsRepository.getLocationById(id)
+    suspend operator fun invoke(id: Int): LocationsEntity {
+        return locationsRepository.getLocationById(id)
+    }
 }

@@ -44,11 +44,19 @@ class EpisodeRepository @Inject constructor(
         deferredCharacters.awaitAll()
     }
 
+    suspend fun getFilteredEpisodes(
+        name: String?,
+        episode: String?
+    ): List<EpisodeEntity> {
+        return episodeDao.getFilteredEpisodes(name, episode)
+    }
+
     suspend fun getEpisodeById(id: Int): EpisodeEntity {
         return if (isInternetAvailable(context)) {
             val episode = episodesApi.getEpisodeById(id)
             episodeDao.insertEpisodes(listOf(episode.toEpisodeEntity()))
             episode.toEpisodeEntity()
+            episodeDao.getEpisodeById(id)
         } else {
             episodeDao.getEpisodeById(id)
         }

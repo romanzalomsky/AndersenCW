@@ -12,8 +12,12 @@ import androidx.navigation.fragment.findNavController
 import com.zalomsky.rickandmorty.R
 import com.zalomsky.rickandmorty.databinding.FragmentDetailsLocationBinding
 import com.zalomsky.rickandmorty.databinding.ItemLocationsBinding
+import com.zalomsky.rickandmorty.domain.models.model.CharacterEntity
+import com.zalomsky.rickandmorty.domain.models.model.LocationsEntity
 import com.zalomsky.rickandmorty.features.LoaderStateAdapter
 import com.zalomsky.rickandmorty.features.characters.character.CharactersAdapter
+import com.zalomsky.rickandmorty.features.characters.details.DetailsCharacterFragmentDirections
+import com.zalomsky.rickandmorty.utils.load
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -49,35 +53,29 @@ class DetailsLocationFragment : Fragment() {
         }
 
         val locationId = arguments?.getInt("locationId") ?: 0
+        viewModel.getLocationById(locationId)
 
         lifecycleScope.launch {
-            viewModel.characters.collect {characters ->
-                adapter.submitCharacterList(characters)
+            viewModel.location.collect { location ->
+                location?.let {
+                    displayLocation(it)
+                }
             }
         }
 
-        lifecycleScope.launch {
-            viewModel.getLocationById(locationId).collect { character ->
-                viewModel.fetchCharacters(character.residents)
-            }
-        }
+        return binding.root
+    }
+
+    private fun displayLocation(location: LocationsEntity) {
 
         val createdAt = resources.getText(R.string.createdAt_locations)
         val dimension = resources.getText(R.string.dimension_locations)
         val type = resources.getText(R.string.type_locations)
         val name = resources.getText(R.string.name_locations)
 
-        lifecycleScope.launch {
-            viewModel.getLocationById(locationId)
-                .collect { location ->
-                    with(binding) {
-                        idNameTextView.text = "${name} " + location.name
-                        idTypeTextView.text = "${type} " + location.type
-                        idDimensionTextView.text = "${dimension} " + location.dimension
-                        idCreatedTextView.text = "${createdAt} " + location.created
-                    }
-                }
-        }
-        return binding.root
+        binding.idNameTextView.text = "${name} " + location.name
+        binding.idTypeTextView.text = "${type} " + location.type
+        binding.idDimensionTextView.text = "${dimension} " + location.dimension
+        binding.idCreatedTextView.text = "${createdAt} " + location.created
     }
 }

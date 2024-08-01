@@ -43,11 +43,20 @@ class LocationsRepository @Inject constructor(
         deferredCharacters.awaitAll()
     }
 
+    suspend fun getFilteredLocations(
+        name: String?,
+        type: String?,
+        dimension: String?
+    ): List<LocationsEntity> {
+        return locationDao.getFilteredLocations(name, type, dimension)
+    }
+
     suspend fun getLocationById(id: Int): LocationsEntity {
         return if (isInternetAvailable(context)) {
             val location = locationsApi.getLocationById(id)
             locationDao.insertLocations(listOf(location.toLocationEntity()))
             location.toLocationEntity()
+            locationDao.getLocationById(id)
         } else {
             locationDao.getLocationById(id)
         }

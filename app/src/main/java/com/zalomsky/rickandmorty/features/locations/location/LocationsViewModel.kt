@@ -1,5 +1,6 @@
 package com.zalomsky.rickandmorty.features.locations.location
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
@@ -8,6 +9,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.zalomsky.rickandmorty.domain.models.model.LocationsEntity
 import com.zalomsky.rickandmorty.domain.models.model.LocationsParams
+import com.zalomsky.rickandmorty.domain.repository.LocationsRepository
 import com.zalomsky.rickandmorty.domain.usecase.locations.GetAllLocationsUseCase
 import com.zalomsky.rickandmorty.features.locations.paging.LocationsPageSource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +23,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LocationsViewModel @Inject constructor(
-    private val getAllLocationsUseCase: GetAllLocationsUseCase
+    private val getAllLocationsUseCase: GetAllLocationsUseCase,
+    private val locationsRepository: LocationsRepository,
+    private val context: Context
 ): ViewModel() {
 
     private val _query = MutableStateFlow(LocationsParams("", "", ""))
@@ -48,7 +52,7 @@ class LocationsViewModel @Inject constructor(
                 pageSize = 10,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { LocationsPageSource(getAllLocationsUseCase, name, type, dimension) }
+            pagingSourceFactory = { LocationsPageSource(getAllLocationsUseCase, locationsRepository, name, type, dimension, context) }
         ).flow
     }
 }

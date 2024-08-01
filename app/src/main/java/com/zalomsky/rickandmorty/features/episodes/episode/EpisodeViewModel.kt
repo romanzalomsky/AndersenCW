@@ -1,5 +1,6 @@
 package com.zalomsky.rickandmorty.features.episodes.episode
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
@@ -8,6 +9,7 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.zalomsky.rickandmorty.domain.models.model.EpisodeEntity
 import com.zalomsky.rickandmorty.domain.models.model.EpisodesParams
+import com.zalomsky.rickandmorty.domain.repository.EpisodeRepository
 import com.zalomsky.rickandmorty.domain.usecase.episodes.GetAllEpisodesUseCase
 import com.zalomsky.rickandmorty.features.episodes.paging.EpisodePageSource
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,7 +23,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EpisodeViewModel @Inject constructor(
-    private val getAllEpisodesUseCase: GetAllEpisodesUseCase
+    private val getAllEpisodesUseCase: GetAllEpisodesUseCase,
+    private val episodeRepository: EpisodeRepository,
+    private val context: Context
 ): ViewModel() {
 
     private val _query = MutableStateFlow(EpisodesParams("", ""))
@@ -48,7 +52,7 @@ class EpisodeViewModel @Inject constructor(
                 pageSize = 10,
                 enablePlaceholders = false
             ),
-            pagingSourceFactory = { EpisodePageSource(getAllEpisodesUseCase, name, episode) }
+            pagingSourceFactory = { EpisodePageSource(getAllEpisodesUseCase, episodeRepository, name, episode, context) }
         ).flow
     }
 }

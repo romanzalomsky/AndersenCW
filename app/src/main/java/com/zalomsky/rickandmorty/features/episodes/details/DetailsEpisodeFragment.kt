@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.zalomsky.rickandmorty.R
 import com.zalomsky.rickandmorty.databinding.FragmentDetailsEpisodeBinding
 import com.zalomsky.rickandmorty.databinding.ItemEpisodesBinding
+import com.zalomsky.rickandmorty.domain.models.model.EpisodeEntity
 import com.zalomsky.rickandmorty.features.LoaderStateAdapter
 import com.zalomsky.rickandmorty.features.characters.character.CharactersAdapter
 import dagger.hilt.android.AndroidEntryPoint
@@ -50,11 +51,15 @@ class DetailsEpisodeFragment : Fragment() {
         }
 
         val episodeId = arguments?.getInt("episodeId") ?: 0
+        viewModel.fetchEpisodeById(episodeId)
 
-        val createdAt = resources.getText(R.string.createdAt_locations)
-        val episodeText = resources.getText(R.string.episode_episode)
-        val name = resources.getText(R.string.name_locations)
-        val airDate = resources.getText(R.string.airDate_episode)
+        lifecycleScope.launch {
+            viewModel.episode.collect { episode ->
+                episode?.let {
+                    displayEpisodes(it)
+                }
+            }
+        }
 
         lifecycleScope.launch {
             viewModel.characters.collect {characters ->
@@ -62,24 +67,20 @@ class DetailsEpisodeFragment : Fragment() {
             }
         }
 
-        lifecycleScope.launch {
-            viewModel.getEpisodeById(episodeId).collect { character ->
-                viewModel.fetchCharacters(character.characters)
-            }
-        }
-
-        lifecycleScope.launch {
-            viewModel.getEpisodeById(episodeId)
-                .collect { episode ->
-                    with(binding) {
-                        idNameTextView.text = "${name} " + episode.name
-                        idAirDateTextView.text = "${airDate} " + episode.air_date
-                        idEpisodeTextView.text = "${episodeText} " + episode.episode
-                        idCreatedEpisodeTextView.text = "${createdAt} " + episode.created
-                    }
-                }
-        }
-
         return binding.root
     }
+
+    private fun displayEpisodes(episode: EpisodeEntity) {
+
+        val createdAt = resources.getText(R.string.createdAt_locations)
+        val episodeText = resources.getText(R.string.episode_episode)
+        val name = resources.getText(R.string.name_locations)
+        val airDate = resources.getText(R.string.airDate_episode)
+
+        binding.idNameTextView.text = "${name} " + episode.name
+        binding.idAirDateTextView.text = "${airDate} " + episode.air_date
+        binding.idEpisodeTextView.text = "${episodeText} " + episode.episode
+        binding.idCreatedEpisodeTextView.text = "${createdAt} " + episode.created
+    }
+
 }
