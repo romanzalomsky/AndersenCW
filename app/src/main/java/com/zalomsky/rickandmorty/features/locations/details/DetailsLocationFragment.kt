@@ -63,6 +63,12 @@ class DetailsLocationFragment : Fragment() {
             }
         }
 
+        lifecycleScope.launch {
+            viewModel.characters.collect {characters ->
+                adapter.submitCharacterList(characters)
+            }
+        }
+
         return binding.root
     }
 

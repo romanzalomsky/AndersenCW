@@ -42,6 +42,7 @@ class DetailsLocationViewModel @Inject constructor(
             try {
                 val location = getLocationByIdUseCase(id)
                 _location.value = location
+                fetchCharacters(location.residents)
             } catch (e: Exception) {
                 Log.e("LocationViewModel", "Error fetching location by id $id", e)
             }

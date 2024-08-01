@@ -42,6 +42,7 @@ class DetailsEpisodeViewModel @Inject constructor(
             try {
                 val episode = getEpisodeByIdUseCase(id)
                 _episode.value = episode
+                fetchCharacters(episode.characters)
             } catch (e: Exception) {
                 Log.e("EpisodeViewModel", "Error fetching episode by id $id", e)
             }

@@ -3,6 +3,7 @@ package com.zalomsky.rickandmorty.domain.repository
 import android.content.Context
 import com.zalomsky.rickandmorty.data.dao.LocationDao
 import com.zalomsky.rickandmorty.domain.models.model.CharacterEntity
+import com.zalomsky.rickandmorty.domain.models.model.EpisodeEntity
 import com.zalomsky.rickandmorty.domain.models.model.LocationResponse
 import com.zalomsky.rickandmorty.domain.models.model.LocationsEntity
 import com.zalomsky.rickandmorty.network.api.LocationsApi
@@ -34,13 +35,13 @@ class LocationsRepository @Inject constructor(
         }
     }
 
-    suspend fun fetchCharacters(residents: List<String>): List<CharacterEntity> = coroutineScope {
-        val deferredCharacters = residents.map { residents ->
-            async {
-                locationsApi.getCharacter(residents)
-            }
+    suspend fun fetchCharacters(residents: List<String>): List<CharacterEntity> {
+        return if(isInternetAvailable(context)) {
+            val characters = residents.map { resident -> locationsApi.getCharacter(resident) }
+            characters
+        } else {
+            locationDao.getResidents(residents)
         }
-        deferredCharacters.awaitAll()
     }
 
     suspend fun getFilteredLocations(

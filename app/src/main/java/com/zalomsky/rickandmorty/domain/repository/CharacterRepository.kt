@@ -35,18 +35,14 @@ class CharacterRepository @Inject constructor(
         }
     }
 
-    suspend fun fetchEpisodes(urls: List<String>): List<EpisodeEntity> = coroutineScope {
-        val deferredEpisodes = urls.map { url ->
-            async {
-                if(isInternetAvailable(context)) {
-                    characterApi.getEpisode(url)
-                } else {
-                    /*characterDao.getEpisodesByUrls(urls)*/
-                }
-            }
+    suspend fun fetchEpisodes(urls: List<String>): List<EpisodeEntity> {
+        return if(isInternetAvailable(context)) {
+            val episodes = urls.map { url -> characterApi.getEpisode(url) }
+            episodes
+        } else {
+            characterDao.getEpisodesByUrls(urls)
         }
-        deferredEpisodes.awaitAll()
-    } as List<EpisodeEntity>
+    }
 
     suspend fun getFilteredCharacters(
         name: String?,

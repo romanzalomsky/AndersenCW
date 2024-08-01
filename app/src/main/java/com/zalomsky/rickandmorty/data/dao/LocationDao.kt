@@ -19,6 +19,9 @@ interface LocationDao {
     @Query("SELECT * FROM location_table WHERE id=:locationId")
     suspend fun getLocationById(locationId: Int): LocationsEntity
 
+    @Query("SELECT * FROM character_table WHERE url IN (:residents)")
+    suspend fun getResidents(residents: List<String>): List<CharacterEntity>
+
     @Query("SELECT * FROM location_table WHERE " +
             "name LIKE '%' || :name || '%' " +
             "AND type LIKE '%' || :type || '%' " +

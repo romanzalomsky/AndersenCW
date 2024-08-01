@@ -19,8 +19,8 @@ interface CharacterDao {
     @Query("SELECT * FROM character_table WHERE id=:characterId")
     suspend fun getCharacterById(characterId: Int): CharacterEntity
 
-/*    @Query("SELECT * FROM character_table WHERE url IN (:urls)")
-    suspend fun getEpisodesByUrls(urls: List<String>): List<EpisodeEntity>*/
+    @Query("SELECT * FROM episode_table WHERE url IN (:urls)")
+    suspend fun getEpisodesByUrls(urls: List<String>): List<EpisodeEntity>
 
     @Query("SELECT * FROM character_table WHERE " +
             "name LIKE '%' || :name || '%' " +

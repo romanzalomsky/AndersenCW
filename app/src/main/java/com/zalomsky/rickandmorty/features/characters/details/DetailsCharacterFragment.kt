@@ -69,12 +69,6 @@ class DetailsCharacterFragment : Fragment() {
             }
         }
 
-        /*lifecycleScope.launch {
-            detailsViewModel.fetchCharacterById(characterId).collect { character ->
-                detailsViewModel.fetchEpisodes(character.episode)
-            }
-        }*/
-
         return binding.root
     }
 

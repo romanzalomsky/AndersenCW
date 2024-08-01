@@ -37,6 +37,7 @@ class DetailsCharacterViewModel @Inject constructor(
             try {
                 val character = getCharacterByIdUseCase(id)
                 _character.value = character
+                fetchEpisodes(character.episode)
             } catch (e: Exception) {
                 Log.e("CharacterViewModel", "Error fetching character by id $id", e)
             }
