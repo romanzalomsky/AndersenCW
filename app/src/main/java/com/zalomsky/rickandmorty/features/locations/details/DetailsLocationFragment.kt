@@ -1,11 +1,11 @@
 package com.zalomsky.rickandmorty.features.locations.details
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -13,7 +13,6 @@ import com.zalomsky.rickandmorty.R
 import com.zalomsky.rickandmorty.databinding.FragmentDetailsLocationBinding
 import com.zalomsky.rickandmorty.features.LocationLoaderStateAdapter
 import com.zalomsky.rickandmorty.features.characters.adapters.CharactersAdapter
-import com.zalomsky.rickandmorty.features.characters.details.DetailsCharacterFragmentDirections
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
